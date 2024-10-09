@@ -254,5 +254,41 @@ fixtures = [
                 ],
             ]
         ],
-    }
+    },
+    {
+        "dt": "Role",
+        "filters": [
+            [
+                "name",
+                "in",
+                [
+                    "Sales Person",
+                ],
+            ]
+        ],
+    },
+    {
+        "dt": "Role Profile",
+        "filters": [
+            [
+                "name",
+                "in",
+                [
+                    "Sales Person",
+                ],
+            ]
+        ],
+    },
+    {
+        "dt": "Module Profile",
+        "filters": [
+            [
+                "name",
+                "in",
+                [
+                    "Sales Person",
+                ],
+            ]
+        ],
+    },
 ]

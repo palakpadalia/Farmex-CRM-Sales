@@ -1,0 +1,17 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Role Profile",
+  "modified": "2024-10-08 13:11:47.494337",
+  "name": "Sales Person",
+  "role_profile": "Sales Person",
+  "roles": [
+   {
+    "parent": "Sales Person",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Sales Person"
+   }
+  ]
+ }
+]
