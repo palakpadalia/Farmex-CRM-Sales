@@ -280,7 +280,7 @@ fixtures = [
         ],
     },
     {
-        "dt": "Module Profile",
+        "dt": "Module0 Profile",
         "filters": [
             [
                 "name",
