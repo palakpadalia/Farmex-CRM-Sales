@@ -2,15 +2,15 @@
  {
   "docstatus": 0,
   "doctype": "Role Profile",
-  "modified": "2024-10-08 13:11:47.494337",
-  "name": "Sales Person",
-  "role_profile": "Sales Person",
+  "modified": "2024-10-15 14:59:07.559480",
+  "name": "Pre Sales",
+  "role_profile": "Pre Sales",
   "roles": [
    {
-    "parent": "Sales Person",
+    "parent": "Pre Sales",
     "parentfield": "roles",
     "parenttype": "Role Profile",
-    "role": "Sales Person"
+    "role": "Pre Sales"
    }
   ]
  }
