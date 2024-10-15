@@ -251,6 +251,7 @@ fixtures = [
                 "in",
                 [
                     "Van Sales",
+                    "Pre Sales",
                 ],
             ]
         ],
@@ -262,7 +263,8 @@ fixtures = [
                 "name",
                 "in",
                 [
-                    "Sales Person",
+                    "Van Sales",
+                    "Pre Sales",
                 ],
             ]
         ],
@@ -274,19 +276,34 @@ fixtures = [
                 "name",
                 "in",
                 [
-                    "Sales Person",
+                    "Van Sales",
+                    "Pre Sales",
                 ],
             ]
         ],
     },
     {
-        "dt": "Module0 Profile",
+        "dt": "Module Profile",
         "filters": [
             [
                 "name",
                 "in",
                 [
-                    "Sales Person",
+                    "Van Sales",
+                    "Pre Sales",
+                ],
+            ]
+        ],
+    },
+    {
+        "dt": "Custom DocPerm",
+        "filters": [
+            [
+                "role",
+                "in",
+                [
+                    "Van Sales",
+                    "Pre Sales",
                 ],
             ]
         ],
