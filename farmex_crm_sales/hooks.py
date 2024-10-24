@@ -43,7 +43,10 @@ app_license = "mit"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-doctype_js = {"Sales Order": "public/js/sales_order.js"}
+doctype_js = {
+    "Sales Order": "public/js/sales_order.js",
+    "Delivery Trip": "public/js/delivery_trip.js",
+}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -137,34 +140,42 @@ doctype_js = {"Sales Order": "public/js/sales_order.js"}
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+    "Sales Order": {
+        "on_submit": "farmex_crm_sales.py.sales_order.save_items_in_sales_order_item_tracking",
+        "on_update_after_submit": [
+            "farmex_crm_sales.py.sales_order.add_flag_of_new",
+            "farmex_crm_sales.py.sales_order.save_updated_items_in_sales_order_item_tracking",
+            "farmex_crm_sales.py.sales_order.update_new_items",
+            "farmex_crm_sales.py.sales_order.set_the_removed_items",
+        ],
+    },
+    "Sales Invoice": {
+        "on_submit": "farmex_crm_sales.py.sales_invoice.send_notification",
+    },
+    "Customer": {
+        "validate": "farmex_crm_sales.py.customer.enable_customer",
+    },
+}
 
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"farmex_crm_sales.tasks.all"
-# 	],
-# 	"daily": [
-# 		"farmex_crm_sales.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"farmex_crm_sales.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"farmex_crm_sales.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"farmex_crm_sales.tasks.monthly"
-# 	],
-# }
+scheduler_events = {
+    # 	"all": [
+    # 		"farmex_crm_sales.tasks.all"
+    # 	],
+    "daily": ["farmex_crm_sales.py.customer.disable_customers"],
+    # 	"hourly": [
+    # 		"farmex_crm_sales.tasks.hourly"
+    # 	],
+    # 	"weekly": [
+    # 		"farmex_crm_sales.tasks.weekly"
+    # 	],
+    # 	"monthly": [
+    # 		"farmex_crm_sales.tasks.monthly"
+    # 	],
+}
 
 # Testing
 # -------
@@ -244,19 +255,6 @@ doctype_js = {"Sales Order": "public/js/sales_order.js"}
 
 fixtures = [
     {
-        "dt": "Workspace",
-        "filters": [
-            [
-                "name",
-                "in",
-                [
-                    "Van Sales",
-                    "Pre Sales",
-                ],
-            ]
-        ],
-    },
-    {
         "dt": "Role",
         "filters": [
             [
@@ -309,3 +307,6 @@ fixtures = [
         ],
     },
 ]
+
+
+on_session_creation = "farmex_crm_sales.py.default_route.custom_login_redirect"
