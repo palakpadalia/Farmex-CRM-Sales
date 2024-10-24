@@ -1,0 +1,29 @@
+{
+ "attach_print": 0,
+ "channel": "Email",
+ "creation": "2024-10-22 13:08:36.300718",
+ "date_changed": "custom_expiry_date_of_company_trade_license",
+ "days_in_advance": 10,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Customer",
+ "enabled": 1,
+ "event": "Days Before",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "<p>The trade license for {{ doc.customer_name }} is expiring on {{ doc.expiry_date }}. Please renew it before the expiry date.</p>\n",
+ "message_type": "Markdown",
+ "modified": "2024-10-22 13:15:00.321126",
+ "modified_by": "Administrator",
+ "module": "Farmex CRM Sales",
+ "name": "Company Trade License Expiry For Customer",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_document_field": "email_id"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "\u26a0\ufe0f Trade License Expiry Reminder - {{ doc.customer_name }}"
+}

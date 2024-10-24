@@ -1,0 +1,29 @@
+{
+ "attach_print": 0,
+ "channel": "Email",
+ "creation": "2024-10-22 13:09:28.092016",
+ "date_changed": "custom_expiry_date_of_owners__authorised_person_passport",
+ "days_in_advance": 10,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Customer",
+ "enabled": 1,
+ "event": "Days Before",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "<p>The passport for the Owner/Authorised Person of {{ doc.customer_name }} is expiring on {{ doc.expiry_date }}. Please ensure it is renewed before the expiry date.</p>\n",
+ "message_type": "Markdown",
+ "modified": "2024-10-22 13:15:00.354035",
+ "modified_by": "Administrator",
+ "module": "Farmex CRM Sales",
+ "name": "Passport Expiry For Customer",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_document_field": "email_id"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "\u26a0\ufe0f Passport Expiry Reminder - {{ doc.customer_name }}"
+}

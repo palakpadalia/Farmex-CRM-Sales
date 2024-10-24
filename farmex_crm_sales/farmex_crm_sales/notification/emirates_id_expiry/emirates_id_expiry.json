@@ -1,0 +1,34 @@
+{
+ "attach_print": 0,
+ "channel": "System Notification",
+ "creation": "2024-10-21 09:55:30.093960",
+ "date_changed": "custom_expiry_date_of_owners__authorised_person_emirates_id",
+ "days_in_advance": 10,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Customer",
+ "enabled": 1,
+ "event": "Days Before",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "The Emirates ID for the Owner/Authorised Person of {{ doc.customer_name }} is expiring on {{ doc.expiry_date }}. Please renew it before the expiry date.",
+ "message_type": "Markdown",
+ "modified": "2024-10-22 13:15:00.231460",
+ "modified_by": "Administrator",
+ "module": "Farmex CRM Sales",
+ "name": "Emirates ID Expiry",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_document_field": "owner",
+   "receiver_by_role": "Pre Sales"
+  },
+  {
+   "receiver_by_document_field": "owner",
+   "receiver_by_role": "Van Sales"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "\u26a0\ufe0f Emirates ID Expiry Reminder - {{ doc.customer_name }}"
+}
