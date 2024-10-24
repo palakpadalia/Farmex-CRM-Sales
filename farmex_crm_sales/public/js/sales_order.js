@@ -1,3 +1,15 @@
+frappe.ui.form.on('Sales Order Cancelled Item', {
+    remarks: function (frm, cdt, cdn) {
+        const child = locals[cdt][cdn];
+        frappe.call({
+            method: "farmex_crm_sales.py.sales_order.send_notification",
+            args: {
+                doc: frm.doc.name,
+            }
+        });
+    }
+});
+
 frappe.ui.form.on('Sales Order', {
     customer: function (frm) {
         frappe.call({
@@ -42,5 +54,5 @@ frappe.ui.form.on('Sales Order', {
             }
         });
 
-    }
+    },
 });
