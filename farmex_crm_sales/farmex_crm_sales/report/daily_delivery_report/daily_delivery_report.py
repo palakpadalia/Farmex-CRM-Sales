@@ -66,8 +66,8 @@ def execute(filters=None):
             "width": 120,
         },
         {
-            "label": _("Mode Of Payment"),
-            "fieldname": "mode_of_payment",
+            "label": _("Remarks"),
+            "fieldname": "custom_payment_type",
             "fieldtype": "Data",
             "width": 120,
         },
@@ -88,7 +88,12 @@ def execute(filters=None):
 
     delivery_trips = frappe.get_list(
         "Delivery Trip",
-        fields=["name", "departure_time", "driver_name", "driver"],
+        fields=[
+            "name",
+            "departure_time",
+            "driver_name",
+            "driver",
+        ],
         filters=trip_filters,
     )
 
@@ -98,20 +103,36 @@ def execute(filters=None):
     for trip in delivery_trips:
         delivery_stops = frappe.get_all(
             "Delivery Stop",
-            fields=["customer", "custom_tax_invoice", "grand_total", "address"],
+            fields=[
+                "customer",
+                "custom_tax_invoice",
+                "grand_total",
+                "address",
+            ],
             filters={"parent": trip.name},
         )
 
         for stop in delivery_stops:
             address = (
-                frappe.get_value("Address", stop.address, ["address_line2", "city"])
+                frappe.get_value(
+                    "Address",
+                    stop.address,
+                    [
+                        "address_line2",
+                        "city",
+                    ],
+                )
                 if stop.address
                 else ("", "")
             )
 
             sales_invoice = frappe.get_all(
                 "Sales Invoice",
-                fields=["custom_sales_person", "name"],
+                fields=[
+                    "custom_sales_person",
+                    "name",
+                    "custom_payment_type",
+                ],
                 filters={**si_filters, "name": stop.custom_tax_invoice},
             )
 
@@ -123,6 +144,7 @@ def execute(filters=None):
 
             sales_person = sales_invoice[0].custom_sales_person if sales_invoice else ""
             driver_cell_number = driver[0].cell_number if driver else ""
+            payment_type = sales_invoice[0].custom_payment_type if sales_invoice else ""
 
             datas = {
                 "name": trip.name,
@@ -135,6 +157,7 @@ def execute(filters=None):
                 "city": address[1],
                 "custom_sales_person": sales_person,
                 "grand_total": stop.grand_total,
+                "custom_payment_type": payment_type,
             }
 
             if (
