@@ -150,9 +150,9 @@ doc_events = {
             "farmex_crm_sales.py.sales_order.set_the_removed_items",
         ],
     },
-    "Sales Invoice": {
-        "on_submit": "farmex_crm_sales.py.sales_invoice.send_notification",
-    },
+    # "Sales Invoice": {
+    #     "on_submit": "farmex_crm_sales.py.sales_invoice.send_notification",
+    # },
     "Customer": {
         "validate": "farmex_crm_sales.py.customer.enable_customer",
     },
