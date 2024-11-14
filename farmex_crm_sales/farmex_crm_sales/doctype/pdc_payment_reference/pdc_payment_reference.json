@@ -1,0 +1,40 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-11-12 16:17:01.411979",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "tax_invoice",
+  "grand_total"
+ ],
+ "fields": [
+  {
+   "fieldname": "tax_invoice",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Tax Invoice",
+   "options": "Sales Invoice"
+  },
+  {
+   "fetch_from": "tax_invoice.outstanding_amount",
+   "fieldname": "grand_total",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Grand Total"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-11-14 12:01:05.030690",
+ "modified_by": "Administrator",
+ "module": "Farmex CRM Sales",
+ "name": "PDC Payment Reference",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
