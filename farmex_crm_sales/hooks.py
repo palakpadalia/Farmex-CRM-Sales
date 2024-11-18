@@ -26,7 +26,7 @@ app_license = "mit"
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/farmex_crm_sales/css/farmex_crm_sales.css"
-# app_include_js = "/assets/farmex_crm_sales/js/farmex_crm_sales.js"
+# app_include_js = "/assets/farmex_crm_sales/js/payment_entry.js"
 
 # include js, css files in header of web template
 # web_include_css = "/assets/farmex_crm_sales/css/farmex_crm_sales.css"
@@ -46,6 +46,8 @@ app_license = "mit"
 doctype_js = {
     "Sales Order": "public/js/sales_order.js",
     "Delivery Trip": "public/js/delivery_trip.js",
+    "Payment Entry": "public/js/payment_entry.js",
+    "Sales Invoice": "public/js/sales_invoice.js",
 }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -149,13 +151,18 @@ doc_events = {
             "farmex_crm_sales.py.sales_order.update_new_items",
             "farmex_crm_sales.py.sales_order.set_the_removed_items",
         ],
+        "validate": "farmex_crm_sales.py.sales_team.set_sales_person",
     },
-    # "Sales Invoice": {
-    #     "on_submit": "farmex_crm_sales.py.sales_invoice.send_notification",
-    # },
+     "Sales Invoice": {
+        # "on_submit": "farmex_crm_sales.py.sales_invoice.send_notification",
+        "validate": "farmex_crm_sales.py.sales_team.set_sales_person",
+    },
     "Customer": {
         "validate": "farmex_crm_sales.py.customer.enable_customer",
     },
+    "Delivery Note":{
+        "validate": "farmex_crm_sales.py.sales_team.set_sales_person",
+    }
 }
 
 # Scheduled Tasks
