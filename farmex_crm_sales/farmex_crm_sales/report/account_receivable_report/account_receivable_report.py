@@ -8,20 +8,20 @@ def execute(filters=None):
             "label": _("Invoice Date"),
             "fieldname": "posting_date",
             "fieldtype": "Date",
-            "width": 130,
+            "width": 110,
         },
         {
             "label": _("Invoice No"),
             "fieldname": "name",
             "fieldtype": "Link",
             "options": "Sales Invoice",
-            "width": 180,
+            "width": 150,
         },
         {
             "label": _("Invoice Status"),
             "fieldname": "status",
             "fieldtype": "Data",
-            "width": 110,
+            "width": 100,
         },
         {
             "label": _("Due Date"),
@@ -38,6 +38,12 @@ def execute(filters=None):
         {
             "label": _("Paid Amount"),
             "fieldname": "total_paid_amount",
+            "fieldtype": "Currency",
+            "width": 125,
+        },
+        {
+            "label": _("PDC Amount"),
+            "fieldname": "total_pdc_amount",
             "fieldtype": "Currency",
             "width": 125,
         },
@@ -156,19 +162,30 @@ def execute(filters=None):
             pdc_paid_amount[pdc_pr["tax_invoice"]] = 0
         pdc_paid_amount[pdc_pr["tax_invoice"]] += pdc_pr["grand_total"]
 
+    filtered_invoices = []
+
     for invoice in tax_invoice:
         invoice["credit_note"] = credit_note.get(invoice["name"], 0)
-        invoice["total_paid_amount"] = paid_amount.get(
-            invoice["name"], pdc_paid_amount.get(invoice["name"], 0)
-        )
+
+        invoice["total_paid_amount"] = paid_amount.get(invoice["name"], 0)
+
+        invoice["total_pdc_amount"] = pdc_paid_amount.get(invoice["name"], 0)
 
         invoice["outstanding_amount"] = (
-            credit_note.get(invoice["name"], 0) + invoice["outstanding_amount"]
+            invoice["grand_total"]
+            - invoice["total_paid_amount"]
+            - invoice["total_pdc_amount"]
+            + invoice["credit_note"]
         )
 
-        if invoice["name"] in pdc_paid_amount:
-            invoice["remarks"] = f"PDC Payment"
+        if invoice["total_pdc_amount"] > 0:
+            invoice["remarks"] = "PDC Payment"
+        else:
+            invoice["remarks"] = ""
 
-            invoice["total_paid_amount"] = 0
+        if not (
+            invoice["outstanding_amount"] == 0 and invoice["total_pdc_amount"] == 0
+        ):
+            filtered_invoices.append(invoice)
 
-    return columns, tax_invoice
+    return columns, filtered_invoices
