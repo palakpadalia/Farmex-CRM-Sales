@@ -1,0 +1,32 @@
+{
+ "attach_print": 0,
+ "channel": "System Notification",
+ "creation": "2024-11-15 16:19:27.519733",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Sales Order",
+ "enabled": 1,
+ "event": "New",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "A new Sales Order has been created! \ud83c\udf89  \n- **Customer**: {{ doc.customer }}  \n- **Salesperson**: {{ doc.sales_team[0].sales_person if doc.sales_team else \"Not Assigned\" }}  \n- **Order Date**: {{ frappe.utils.formatdate(doc.transaction_date) }}  \n- **Total Amount**: {{ frappe.utils.fmt_money(doc.grand_total, currency=doc.currency) }}  \n\ud83d\ude80 Please review the order and take the necessary action.",
+ "message_type": "Markdown",
+ "modified": "2024-11-19 08:51:20.087736",
+ "modified_by": "Administrator",
+ "module": "Farmex CRM Sales",
+ "name": "Sales Order",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_document_field": "",
+   "receiver_by_role": "Sales Manager"
+  },
+  {
+   "receiver_by_role": "Sales Master Manager"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "\ud83d\udcbc New Sales Order Created: {{ doc.name }}"
+}
