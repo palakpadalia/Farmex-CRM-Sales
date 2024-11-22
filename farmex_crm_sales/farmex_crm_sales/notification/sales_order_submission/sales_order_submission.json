@@ -1,0 +1,31 @@
+{
+ "attach_print": 0,
+ "channel": "System Notification",
+ "creation": "2024-11-19 09:43:50.305037",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Sales Order",
+ "enabled": 1,
+ "event": "Submit",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "",
+ "message_type": "Markdown",
+ "modified": "2024-11-21 09:33:04.873947",
+ "modified_by": "Administrator",
+ "module": "Farmex CRM Sales",
+ "name": "Sales Order Submission",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_role": "Stock Manager"
+  },
+  {
+   "receiver_by_role": "Stock User"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "\u2705 Sales Order Confirmed: {{ doc.name }}"
+}

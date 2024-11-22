@@ -1,0 +1,29 @@
+{
+ "attach_print": 0,
+ "channel": "System Notification",
+ "condition": "doc.purpose ==\"Delivery\"",
+ "creation": "2024-11-21 09:41:33.518176",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Pick List",
+ "enabled": 1,
+ "event": "Submit",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "<p>Please Create Delievry Note</p>",
+ "message_type": "Markdown",
+ "modified": "2024-11-21 09:41:56.875160",
+ "modified_by": "Administrator",
+ "module": "Farmex CRM Sales",
+ "name": "Pick List For Sales Order",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_role": "Operations"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "\ud83d\ude9a Delivery is Ready for {{ doc.customer }}"
+}
