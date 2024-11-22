@@ -48,6 +48,7 @@ doctype_js = {
     "Delivery Trip": "public/js/delivery_trip.js",
     "Payment Entry": "public/js/payment_entry.js",
     "Sales Invoice": "public/js/sales_invoice.js",
+    "Delivery Note": "public/js/delivery_note.js",
 }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -151,18 +152,45 @@ doc_events = {
             "farmex_crm_sales.py.sales_order.update_new_items",
             "farmex_crm_sales.py.sales_order.set_the_removed_items",
         ],
-        "validate": "farmex_crm_sales.py.sales_team.set_sales_person",
+        "validate": [
+            "farmex_crm_sales.py.sales_team.set_sales_person",
+        ],
+        "before_validate": [
+            "farmex_crm_sales.py.sales_team.set_sales_person",
+        ],
     },
-     "Sales Invoice": {
+    "Sales Invoice": {
+        # DONT REMOVE BELOW LINE
         # "on_submit": "farmex_crm_sales.py.sales_invoice.send_notification",
-        "validate": "farmex_crm_sales.py.sales_team.set_sales_person",
+        # THAT IS FOR NOTFICATION
+        "validate": [
+            "farmex_crm_sales.py.sales_team.set_sales_person",
+        ],
+        "before_validate": [
+            "farmex_crm_sales.py.sales_team.set_sales_person",
+        ],
     },
     "Customer": {
         "validate": "farmex_crm_sales.py.customer.enable_customer",
     },
-    "Delivery Note":{
-        "validate": "farmex_crm_sales.py.sales_team.set_sales_person",
-    }
+    "Delivery Note": {
+        "validate": [
+            "farmex_crm_sales.py.sales_team.set_sales_person",
+        ],
+        "before_validate": [
+            "farmex_crm_sales.py.sales_team.set_sales_person",
+        ],
+    },
+    "Sales Person": {
+        "validate": [
+            "farmex_crm_sales.py.sales_person.create_user_permission_for_sales_person",
+        ]
+    },
+    "Payment Entry": {
+        "before_validate": [
+            "farmex_crm_sales.py.payment_entry.set_sales_person_or_driver",
+        ],
+    },
 }
 
 # Scheduled Tasks
@@ -270,6 +298,7 @@ fixtures = [
                 [
                     "Van Sales",
                     "Pre Sales",
+                    "Operations"
                 ],
             ]
         ],
@@ -292,19 +321,6 @@ fixtures = [
         "filters": [
             [
                 "name",
-                "in",
-                [
-                    "Van Sales",
-                    "Pre Sales",
-                ],
-            ]
-        ],
-    },
-    {
-        "dt": "Custom DocPerm",
-        "filters": [
-            [
-                "role",
                 "in",
                 [
                     "Van Sales",

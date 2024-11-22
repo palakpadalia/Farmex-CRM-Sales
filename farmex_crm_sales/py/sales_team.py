@@ -11,3 +11,5 @@ def set_sales_person(doc, event):
         sales_team.sales_person = doc.custom_sales_person
         sales_team.allocated_percentage = 100
         sales_team.allocated_amount = doc.total
+
+

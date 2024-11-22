@@ -203,3 +203,5 @@ def send_notification(doc):
             notification.save()
 
     frappe.db.commit()
+
+

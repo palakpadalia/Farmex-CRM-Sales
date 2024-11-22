@@ -64,5 +64,11 @@ frappe.ui.form.on('Sales Order', {
             const url = `/app/query-report/Account%20Receivable%20Report?company=${company}&customer=${customer}`;
             window.open(url, "_blank");
         });
-    }
+
+        if (!frm.is_new()) {
+            frm.set_df_property('custom_sales_person', 'reqd', 1);
+        } else {
+            frm.set_df_property('custom_sales_person', 'reqd', 0);
+        }
+    },
 });
