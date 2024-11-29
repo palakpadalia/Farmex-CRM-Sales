@@ -49,6 +49,7 @@ doctype_js = {
     "Payment Entry": "public/js/payment_entry.js",
     "Sales Invoice": "public/js/sales_invoice.js",
     "Delivery Note": "public/js/delivery_note.js",
+    "Item": "public/js/item.js",
 }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -135,9 +136,7 @@ doctype_js = {
 # ---------------
 # Override standard doctype classes
 
-# override_doctype_class = {
-# 	"ToDo": "custom_app.overrides.CustomToDo"
-# }
+override_doctype_class = {"Item": "farmex_crm_sales.py.item.Item"}
 
 # Document Events
 # ---------------
@@ -220,9 +219,9 @@ scheduler_events = {
 # Overriding Methods
 # ------------------------------
 #
-# override_whitelisted_methods = {
-# 	"frappe.desk.doctype.event.event.get_events": "farmex_crm_sales.event.get_events"
-# }
+override_whitelisted_methods = {
+    "erpnext.stock.doctype.item.item.get_uom_conv_factor": "farmex_crm_sales.py.item.get_uom_conv_factor"
+}
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
@@ -295,11 +294,7 @@ fixtures = [
             [
                 "name",
                 "in",
-                [
-                    "Van Sales",
-                    "Pre Sales",
-                    "Operations"
-                ],
+                ["Van Sales", "Pre Sales", "Operations"],
             ]
         ],
     },
