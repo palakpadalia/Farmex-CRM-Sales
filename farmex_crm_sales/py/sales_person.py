@@ -1,6 +1,4 @@
 import frappe
-import datetime
-
 import frappe.utils
 
 
@@ -40,7 +38,7 @@ def set_user_permission_van_sales(doc, event):
 
         check_permission = frappe.db.exists(
             "User Permission",
-            {"user": user, "allow": "Warehouse", "for_value": doc.custom_warehouse},
+            {"user": user, "allow": "Warehouse"},
         )
 
         if not check_permission:
@@ -50,6 +48,9 @@ def set_user_permission_van_sales(doc, event):
             new_user_permission.for_value = doc.custom_warehouse
             new_user_permission.save()
             frappe.db.commit()
+        else:
+            existing_user_permission = frappe.get_doc("User Permission", {"user": user, "allow": "Warehouse"})
+            existing_user_permission.warehouse = doc.custom_warehouse
 
 
 @frappe.whitelist()
