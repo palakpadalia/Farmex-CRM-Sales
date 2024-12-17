@@ -7,10 +7,9 @@ import frappe.utils
 @frappe.whitelist()
 def create_user_permission_for_sales_person(doc, event):
     if doc.employee:
-        
+
         employee = frappe.get_doc("Employee", doc.employee)
 
-   
         user_id = employee.user_id
 
         existing_permission = frappe.db.exists(
@@ -33,9 +32,24 @@ def create_user_permission_for_sales_person(doc, event):
 
 
 @frappe.whitelist()
-def set_user_permission_van_sales(doc,event):
-    if(doc.custom_is_van_sales==1 and doc.custom_warehouse):
-        
+def set_user_permission_van_sales(doc, event):
+    if doc.custom_is_van_sales == 1 and doc.custom_warehouse and doc.employee:
+        employee = frappe.get_doc("Employee", doc.employee)
+
+        user = employee.user_id
+
+        check_permission = frappe.db.exists(
+            "User Permission",
+            {"user": user, "allow": "Warehouse", "for_value": doc.custom_warehouse},
+        )
+
+        if not check_permission:
+            new_user_permission = frappe.new_doc("User Permission")
+            new_user_permission.user = user
+            new_user_permission.allow = "Warehouse"
+            new_user_permission.for_value = doc.custom_warehouse
+            new_user_permission.save()
+            frappe.db.commit()
 
 
 @frappe.whitelist()
@@ -92,4 +106,3 @@ def set_sales_person(doc, event):
 #         data={"parent": "0"},
 #     )
 #     return res
-
