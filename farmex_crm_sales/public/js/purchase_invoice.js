@@ -1,24 +1,18 @@
-frappe.ui.form.on('Delivery Note', {
-    refresh: function (frm) {
-        if (!frm.is_new()) {
-            frm.set_df_property('custom_sales_person', 'reqd', 1);
-        } else {
-            frm.set_df_property('custom_sales_person', 'reqd', 0);
-        }
-
-          // Add bulk item button for adding in item table
-          if (frm.doc.docstatus < 1) {
+frappe.ui.form.on('Purchase Invoice', {
+	refresh(frm) {
+		 // Add bulk item button for adding in item table
+         if (frm.doc.docstatus < 1) {
             frm.add_custom_button(__('Add Items'), function () {
                 show_grouped_item_dialog(frm);
             });
         }
-    },
+        
+        
+	}
+})
 
-});
-
-
-
-
+      
+ 
 // add bulk item add in child table
 function show_grouped_item_dialog(frm) {
     // dialog for select group wise item

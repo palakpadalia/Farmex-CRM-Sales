@@ -50,6 +50,12 @@ doctype_js = {
     "Sales Invoice": "public/js/sales_invoice.js",
     "Delivery Note": "public/js/delivery_note.js",
     "Item": "public/js/item.js",
+    "Purchase Invoice": "public/js/purchase_invoice.js",
+    "Purchase Order": "public/js/purchase_order.js",
+    "Stock Entry": "public/js/stock_entry.js",
+    "Quotation": "public/js/quotation.js",
+    "Material Request": "public/js/material_request.js",
+    "Stock Reconciliation": "public/js/stock_reconciliation.js",
 }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -171,6 +177,9 @@ doc_events = {
     },
     "Customer": {
         "validate": "farmex_crm_sales.py.customer.enable_customer",
+        "after_insert": "farmex_crm_sales.py.customer.update_pricelist_insert",
+        "before_save": "farmex_crm_sales.py.customer.before_save",
+        "on_trash": "farmex_crm_sales.py.customer.on_trash",        
     },
     "Delivery Note": {
         "validate": [
@@ -183,6 +192,7 @@ doc_events = {
     "Sales Person": {
         "validate": [
             "farmex_crm_sales.py.sales_person.create_user_permission_for_sales_person",
+            'farmex_crm_sales.py.sales_person.set_user_permission_van_sales'
         ]
     },
     "Payment Entry": {

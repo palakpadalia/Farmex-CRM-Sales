@@ -31,7 +31,7 @@ def execute(filters=None):
         },
         {
             "label": _("Invoiced Amount"),
-            "fieldname": "grand_total",
+            "fieldname": "rounded_total",
             "fieldtype": "Currency",
             "width": 125,
         },
@@ -96,6 +96,7 @@ def execute(filters=None):
             "grand_total",
             "outstanding_amount",
             "status",
+            'rounded_total'
         ],
         filters=tax_invoice_filters,
     )
@@ -172,7 +173,7 @@ def execute(filters=None):
         invoice["total_pdc_amount"] = pdc_paid_amount.get(invoice["name"], 0)
 
         invoice["outstanding_amount"] = (
-            invoice["grand_total"]
+            invoice["rounded_total"]
             - invoice["total_paid_amount"]
             - invoice["total_pdc_amount"]
             + invoice["credit_note"]

@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"qFdmkWI55b\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Van Sales</span>\",\"col\":12}},{\"id\":\"KoWx8uiTF-\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Selling\",\"col\":3}},{\"id\":\"_oOs6vHIIj\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lead\",\"col\":3}},{\"id\":\"sfnNEkRJyD\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer\",\"col\":3}},{\"id\":\"hna2-nxRlC\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Address\",\"col\":3}},{\"id\":\"PL6YeaV_56\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Contact\",\"col\":3}},{\"id\":\"Lt9DAvoGiJ\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"EztiSiIhQ5\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Transactions</b></span>\",\"col\":12}},{\"id\":\"w3MHGq9dKv\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Quotation\",\"col\":3}},{\"id\":\"_RXAxBsWBH\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Order\",\"col\":3}},{\"id\":\"NSUy9qAoOv\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Delivery Note\",\"col\":3}},{\"id\":\"yR1jnu7bYx\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Invoice\",\"col\":3}},{\"id\":\"IpUlPSbZvq\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"HkCESDVlTv\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports</b></span>\",\"col\":12}},{\"id\":\"4nQlW1J8jc\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Analytics\",\"col\":3}},{\"id\":\"WHFCqnfrpN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Accounts Receivable\",\"col\":3}},{\"id\":\"ZNK2wJXa7R\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Ledger\",\"col\":3}},{\"id\":\"EOuh5jZLuT\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Cancelled Items From Sales Order\",\"col\":3}},{\"id\":\"e4KylJ2dsm\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Delivery Report\",\"col\":3}}]",
+ "content": "[{\"id\":\"vMaBIOuCtk\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Sales\",\"col\":4}},{\"id\":\"5bHydpP-dY\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Cheques\",\"col\":4}},{\"id\":\"IE-EgnfYev\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Stock Value\",\"col\":4}},{\"id\":\"UwyTSu5a-S\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Outstanding\",\"col\":4}},{\"id\":\"GacqIG5PKh\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"PDC\",\"col\":4}},{\"id\":\"qFdmkWI55b\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Van Sales</span>\",\"col\":12}},{\"id\":\"KoWx8uiTF-\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Selling\",\"col\":3}},{\"id\":\"_oOs6vHIIj\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lead\",\"col\":3}},{\"id\":\"sfnNEkRJyD\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer\",\"col\":3}},{\"id\":\"hna2-nxRlC\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Address\",\"col\":3}},{\"id\":\"PL6YeaV_56\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Contact\",\"col\":3}},{\"id\":\"Lt9DAvoGiJ\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"EztiSiIhQ5\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Transactions</b></span>\",\"col\":12}},{\"id\":\"w3MHGq9dKv\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Quotation\",\"col\":3}},{\"id\":\"_RXAxBsWBH\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Order\",\"col\":3}},{\"id\":\"NSUy9qAoOv\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Delivery Note\",\"col\":3}},{\"id\":\"yR1jnu7bYx\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Invoice\",\"col\":3}},{\"id\":\"IpUlPSbZvq\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"HkCESDVlTv\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports</b></span>\",\"col\":12}},{\"id\":\"4nQlW1J8jc\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Analytics\",\"col\":3}},{\"id\":\"WHFCqnfrpN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Accounts Receivable\",\"col\":3}},{\"id\":\"ZNK2wJXa7R\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Ledger\",\"col\":3}},{\"id\":\"EOuh5jZLuT\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Cancelled Items From Sales Order\",\"col\":3}},{\"id\":\"e4KylJ2dsm\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Delivery Report\",\"col\":3}}]",
  "creation": "2024-10-21 08:46:37.189719",
  "custom_blocks": [],
  "docstatus": 0,
@@ -8,16 +8,37 @@
  "for_user": "",
  "hide_custom": 0,
  "icon": "shortcut",
- "idx": 0,
+ "idx": 1,
  "indicator_color": "",
  "is_hidden": 0,
  "label": "Van Sales",
  "links": [],
- "modified": "2024-10-24 17:04:45.682211",
+ "modified": "2024-12-17 11:03:15.513806",
  "modified_by": "Administrator",
  "module": "Farmex CRM Sales",
  "name": "Van Sales",
- "number_cards": [],
+ "number_cards": [
+  {
+   "label": "Total Sales",
+   "number_card_name": "Van_Sales_Total"
+  },
+  {
+   "label": "PDC",
+   "number_card_name": "Draft_Cheque"
+  },
+  {
+   "label": "Stock Value",
+   "number_card_name": "Stock Value"
+  },
+  {
+   "label": "Cheques",
+   "number_card_name": "Total Cheques"
+  },
+  {
+   "label": "Total Outstanding",
+   "number_card_name": "Van_Sales_Outstanding_Total"
+  }
+ ],
  "owner": "Administrator",
  "parent_page": "",
  "public": 1,
