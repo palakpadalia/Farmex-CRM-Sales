@@ -1,0 +1,1 @@
+New customer {{doc.customer_name}} is created.

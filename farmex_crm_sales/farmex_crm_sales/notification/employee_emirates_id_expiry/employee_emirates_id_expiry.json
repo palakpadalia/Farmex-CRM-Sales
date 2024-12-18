@@ -1,0 +1,33 @@
+{
+ "attach_print": 0,
+ "channel": "System Notification",
+ "condition": "",
+ "creation": "2024-12-18 10:00:16.273534",
+ "date_changed": "custom_emirates_id_expiry_date",
+ "days_in_advance": 30,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Employee",
+ "enabled": 1,
+ "event": "Days Before",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "",
+ "message_type": "Markdown",
+ "modified": "2024-12-18 10:00:16.273534",
+ "modified_by": "Administrator",
+ "module": "Farmex CRM Sales",
+ "name": "Employee Emirates ID Expiry",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_role": "HR Manager"
+  },
+  {
+   "receiver_by_role": "HR User"
+  }
+ ],
+ "send_system_notification": 1,
+ "send_to_all_assignees": 0,
+ "subject": "{{ doc.name }}'s Emirates ID is getting expired!"
+}

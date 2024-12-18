@@ -1,0 +1,36 @@
+{
+ "attach_print": 0,
+ "channel": "System Notification",
+ "condition": "",
+ "creation": "2024-12-11 15:19:57.870115",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Customer",
+ "enabled": 1,
+ "event": "New",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "New customer {{doc.customer_name}} is created.",
+ "message_type": "Markdown",
+ "modified": "2024-12-18 09:22:12.623392",
+ "modified_by": "Administrator",
+ "module": "Farmex CRM Sales",
+ "name": "Customer Creation",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_role": "Sales Manager"
+  },
+  {
+   "receiver_by_role": "Sales Master Manager"
+  },
+  {
+   "receiver_by_role": "Sales User"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "\ud83c\udf89 A new customer has been registered!  Customer Name: {{ doc.customer_name }}",
+ "value_changed": "disabled"
+}

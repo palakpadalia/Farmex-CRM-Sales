@@ -1,0 +1,32 @@
+{
+ "attach_print": 0,
+ "channel": "System Notification",
+ "creation": "2024-12-18 10:41:37.537735",
+ "date_changed": "end_date",
+ "days_in_advance": 30,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Vehicle",
+ "enabled": 1,
+ "event": "Days Before",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "Vehicle ID: {{doc.name}}\nChassis No: {{doc.chassis_no or \"\"}}\nModel: {{doc.model or \"\"}}\nInsurance Company: {{doc.insurance_company or \"\"}}\nPolicy Number: {{doc.policy_no or \"\"}}\nFuel Type: {{doc.fuel_type or \"\"}}\nRegister End Date: {{doc.custom_registration_end_date or \"\"}}\n",
+ "message_type": "HTML",
+ "modified": "2024-12-18 11:13:17.766398",
+ "modified_by": "Administrator",
+ "module": "Farmex CRM Sales",
+ "name": "Vehicle Insurance Expiry",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_role": "Fleet Manager"
+  },
+  {
+   "receiver_by_role": "Accounts Manager"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "{{doc.name}} This Vehicle Insurance Expired on {{doc.get_formatted(\"end_date\")}}"
+}
