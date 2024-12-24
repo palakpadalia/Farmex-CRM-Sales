@@ -1,0 +1,32 @@
+{
+ "attach_print": 0,
+ "channel": "System Notification",
+ "creation": "2024-12-12 09:59:46.690955",
+ "date_changed": "custom_expiry_date_of_owners__authorised_person_emirates_id",
+ "days_in_advance": 30,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Supplier",
+ "enabled": 1,
+ "event": "Days Before",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "Add your message here",
+ "message_type": "Markdown",
+ "modified": "2024-12-18 09:31:02.355620",
+ "modified_by": "Administrator",
+ "module": "Farmex CRM Sales",
+ "name": "Expiry Of Owners & Authorised Person Emirates ID",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_role": "HR Manager"
+  },
+  {
+   "receiver_by_role": "HR User"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "{{ doc.name }}'s Owners & Authorised Person Emirates ID is getting Expired in 30 days!"
+}

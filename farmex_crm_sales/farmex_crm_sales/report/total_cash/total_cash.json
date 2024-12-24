@@ -1,13 +1,6 @@
 {
  "add_total_row": 0,
- "columns": [
-  {
-   "fieldname": "total_cash",
-   "fieldtype": "Currency",
-   "label": "Total Cash",
-   "width": 0
-  }
- ],
+ "columns": [],
  "creation": "2024-12-18 11:56:30.331468",
  "disabled": 0,
  "docstatus": 0,
@@ -17,16 +10,16 @@
  "is_standard": "Yes",
  "letter_head": "Farmex",
  "letterhead": null,
- "modified": "2024-12-18 12:31:41.447474",
+ "modified": "2024-12-23 18:12:06.629088",
  "modified_by": "Administrator",
  "module": "Farmex CRM Sales",
  "name": "Total Cash",
  "owner": "Administrator",
  "prepared_report": 0,
- "query": "SELECT SUM(paid_amount) as total_cash\nFROM `tabPayment Entry` \nWHERE status = 'Draft' \nAND mode_of_payment = 'Cash';\n",
+ "query": "SELECT paid_amount as total_cash\nFROM `tabPayment Entry` \nWHERE status = 'Draft' \nAND mode_of_payment = 'Cash';\n",
  "ref_doctype": "Payment Entry",
  "report_name": "Total Cash",
- "report_type": "Query Report",
+ "report_type": "Script Report",
  "roles": [
   {
    "role": "Accounts User"

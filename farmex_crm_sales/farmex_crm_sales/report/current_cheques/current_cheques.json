@@ -6,11 +6,11 @@
  "docstatus": 0,
  "doctype": "Report",
  "filters": [],
- "idx": 0,
+ "idx": 1,
  "is_standard": "Yes",
  "letter_head": "Farmex",
  "letterhead": null,
- "modified": "2024-12-18 12:40:49.166690",
+ "modified": "2024-12-23 18:17:24.786065",
  "modified_by": "Administrator",
  "module": "Farmex CRM Sales",
  "name": "Current Cheques",
@@ -19,7 +19,7 @@
  "query": "SELECT COUNT(name) \nFROM `tabPayment Entry` \nWHERE status = 'Draft' \nAND mode_of_payment = 'Cheque';\n",
  "ref_doctype": "Payment Entry",
  "report_name": "Current Cheques",
- "report_type": "Query Report",
+ "report_type": "Script Report",
  "roles": [
   {
    "role": "Accounts User"

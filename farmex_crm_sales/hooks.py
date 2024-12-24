@@ -200,6 +200,12 @@ doc_events = {
             "farmex_crm_sales.py.payment_entry.set_sales_person_or_driver",
         ],
     },
+    "Employee": {
+        "validate": [
+            'farmex_crm_sales.py.emp.create_branch_user_permission'
+        ]
+    }
+    
 }
 
 # Scheduled Tasks
@@ -209,7 +215,7 @@ scheduler_events = {
     # 	"all": [
     # 		"farmex_crm_sales.tasks.all"
     # 	],
-    "daily": ["farmex_crm_sales.py.customer.disable_customers"],
+    "daily": ["farmex_crm_sales.py.customer.disable_customers", "farmex_crm_sales.py.sales_person.set_incentives"],
     # 	"hourly": [
     # 		"farmex_crm_sales.tasks.hourly"
     # 	],

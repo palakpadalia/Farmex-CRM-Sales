@@ -11,6 +11,22 @@ frappe.ui.form.on('Sales Order Cancelled Item', {
 });
 
 frappe.ui.form.on('Sales Order', {
+
+    onload: function(frm) {
+        if (frm.is_new()) {  // Check if the document is new
+            let today = new Date();
+            today.setDate(today.getDate() + 2); // Add 2 days to the current date
+    
+            // Check if the new date falls on a Sunday (getDay() returns 0 for Sunday)
+            if (today.getDay() === 0) {
+                today.setDate(today.getDate() + 1);  // If it's Sunday, add 1 more day (Monday)
+            }
+    
+            let formattedDate = today.toISOString().split('T')[0]; // YYYY-MM-DD format
+            frm.set_value('delivery_date', formattedDate);  // Set the 'delivery_date' field
+        }
+    },
+    
    
     customer: function (frm) {
         frappe.call({
@@ -57,7 +73,6 @@ frappe.ui.form.on('Sales Order', {
     },
    
     refresh: function (frm) {
-               
         // for the item group wise item visible in item_code field
         frm.fields_dict['items'].grid.get_field('item_code').get_query = function (doc, cdt, cdn) {
           var item_row = locals[cdt][cdn];

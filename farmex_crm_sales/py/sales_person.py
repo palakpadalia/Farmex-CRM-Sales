@@ -92,21 +92,25 @@ def set_sales_person(doc, event):
                     doc.custom_sales_person = sales_person
 
 
-# from frappe.desk.doctype.bulk_update.bulk_update import submit_cancel_or_update_docs
+from frappe.desk.doctype.bulk_update.bulk_update import submit_cancel_or_update_docs
 
-
-# path: /api/method/farmex_crm_sales.py.sales_person.set_number_card_van_sales_grand_total
+# path: /api/method/farmex_crm_sales.py.sales_person.set_incentives
 # Set Sales Person's Commission to zero
-# @frappe.whitelist()
-# def set_incentives():
+@frappe.whitelist()
+def set_incentives():
 
-#     invoices = frappe.db.get_all(
-#         doctype="Sales Invoice", fields=["name"], filters={"status": "Overdue"}
-#     )
-#     res = submit_cancel_or_update_docs(
-#         doctype="Sales Team",
-#         action="update",
-#         docnames=invoices,
-#         data={"parent": "0"},
-#     )
-#     return res
+    invoices = frappe.db.get_all(
+        doctype="Sales Invoice", pluck="name", filters={"status": "Overdue"}
+    )
+
+    child_names = frappe.db.get_all(
+        doctype='Sales Team', pluck = 'name', filters = {'parent':['in',invoices]}
+    )
+
+    res = submit_cancel_or_update_docs(
+        doctype="Sales Team",
+        action="update",
+        docnames =  child_names,
+        data={"incentives": "0"},
+    )
+    return "Incentives Updated Successfully!"
