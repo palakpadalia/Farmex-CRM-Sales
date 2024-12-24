@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"qFdmkWI55b\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Van Sales</span>\",\"col\":12}},{\"id\":\"FON5uqOzwo\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Sales\",\"col\":3}},{\"id\":\"kdi9hT0Cx_\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Cash\",\"col\":3}},{\"id\":\"5EReq3zpIr\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total PDC Cheque\",\"col\":3}},{\"id\":\"SrIsTA5x4E\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Deduct Cheques\",\"col\":3}},{\"id\":\"2fasmsn0vk\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"KoWx8uiTF-\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Selling\",\"col\":3}},{\"id\":\"_oOs6vHIIj\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lead\",\"col\":3}},{\"id\":\"sfnNEkRJyD\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer\",\"col\":3}},{\"id\":\"hna2-nxRlC\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Address\",\"col\":3}},{\"id\":\"PL6YeaV_56\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Contact\",\"col\":3}},{\"id\":\"Lt9DAvoGiJ\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"EztiSiIhQ5\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Transactions</b></span>\",\"col\":12}},{\"id\":\"w3MHGq9dKv\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Quotation\",\"col\":3}},{\"id\":\"_RXAxBsWBH\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Order\",\"col\":3}},{\"id\":\"NSUy9qAoOv\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Delivery Note\",\"col\":3}},{\"id\":\"yR1jnu7bYx\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Invoice\",\"col\":3}},{\"id\":\"leRzb1ku0r\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Payment Entry\",\"col\":3}},{\"id\":\"IpUlPSbZvq\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"HkCESDVlTv\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports</b></span>\",\"col\":12}},{\"id\":\"4nQlW1J8jc\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Analytics\",\"col\":3}},{\"id\":\"WHFCqnfrpN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Accounts Receivable\",\"col\":3}},{\"id\":\"ZNK2wJXa7R\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Ledger\",\"col\":3}},{\"id\":\"CbxQdlmIDr\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Cancelled Items From Sales Order\",\"col\":3}},{\"id\":\"8HB5pzMvKC\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Delivery Report\",\"col\":3}},{\"id\":\"2FXUzl3Lcp\",\"type\":\"card\",\"data\":{\"card_name\":\"test\",\"col\":4}},{\"id\":\"h2pb2XoY_Z\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Active Customers\",\"col\":4}}]",
+ "content": "[{\"id\":\"qFdmkWI55b\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Van Sales</span>\",\"col\":12}},{\"id\":\"FON5uqOzwo\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Sales\",\"col\":4}},{\"id\":\"kdi9hT0Cx_\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Cash\",\"col\":4}},{\"id\":\"C_qOjhc5-x\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Stock\",\"col\":4}},{\"id\":\"5EReq3zpIr\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total PDC Cheque\",\"col\":4}},{\"id\":\"SrIsTA5x4E\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Deduct Cheques\",\"col\":4}},{\"id\":\"2fasmsn0vk\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"KoWx8uiTF-\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Dashboard\",\"col\":3}},{\"id\":\"sfnNEkRJyD\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer\",\"col\":3}},{\"id\":\"hna2-nxRlC\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Address\",\"col\":3}},{\"id\":\"PL6YeaV_56\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Contact\",\"col\":3}},{\"id\":\"Lt9DAvoGiJ\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"EztiSiIhQ5\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Transactions</b></span>\",\"col\":12}},{\"id\":\"_RXAxBsWBH\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Order\",\"col\":3}},{\"id\":\"yR1jnu7bYx\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Invoice\",\"col\":3}},{\"id\":\"NSUy9qAoOv\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Delivery Note\",\"col\":3}},{\"id\":\"leRzb1ku0r\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Payment Entry\",\"col\":3}},{\"id\":\"IpUlPSbZvq\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"HkCESDVlTv\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports</b></span>\",\"col\":12}},{\"id\":\"4nQlW1J8jc\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Analytics\",\"col\":3}},{\"id\":\"WHFCqnfrpN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Accounts Receivable\",\"col\":3}},{\"id\":\"ZNK2wJXa7R\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Ledger\",\"col\":3}},{\"id\":\"CbxQdlmIDr\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Cancelled Items From Sales Order\",\"col\":3}},{\"id\":\"8HB5pzMvKC\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Delivery Report\",\"col\":3}}]",
  "creation": "2024-10-21 08:46:37.278091",
  "custom_blocks": [],
  "docstatus": 0,
@@ -12,35 +12,15 @@
  "indicator_color": "green",
  "is_hidden": 0,
  "label": "Pre Sales",
- "links": [
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "test",
-   "link_count": 1,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Sales Order",
-   "link_count": 0,
-   "link_to": "Sales Order",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  }
- ],
- "modified": "2024-12-24 10:11:07.971842",
+ "links": [],
+ "modified": "2024-12-24 13:38:48.160044",
  "modified_by": "Administrator",
  "module": "Farmex CRM Sales",
  "name": "Pre Sales",
  "number_cards": [
   {
-   "label": "Active Customers",
-   "number_card_name": "Active Customers"
+   "label": "Total Stock",
+   "number_card_name": "Total Stock Value"
   },
   {
    "label": "Total Sales",
@@ -81,6 +61,13 @@
   {
    "color": "Grey",
    "doc_view": "List",
+   "label": "Dashboard",
+   "link_to": "Selling",
+   "type": "Dashboard"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
    "label": "Cancelled Items From Sales Order",
    "link_to": "Cancelled Items From Sales Order",
    "type": "Report"
@@ -110,21 +97,6 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Selling",
-   "link_to": "Selling",
-   "type": "Dashboard"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Lead",
-   "link_to": "Lead",
-   "stats_filter": "[]",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
    "label": "Customer",
    "link_to": "Customer",
    "stats_filter": "[]",
@@ -135,14 +107,6 @@
    "doc_view": "List",
    "label": "Sales Invoice",
    "link_to": "Sales Invoice",
-   "stats_filter": "[]",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Quotation",
-   "link_to": "Quotation",
    "stats_filter": "[]",
    "type": "DocType"
   },

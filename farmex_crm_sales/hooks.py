@@ -190,10 +190,14 @@ doc_events = {
         ],
     },
     "Sales Person": {
-        "validate": [
+        "on_update": [
             "farmex_crm_sales.py.sales_person.create_user_permission_for_sales_person",
             'farmex_crm_sales.py.sales_person.set_user_permission_van_sales'
+        ],
+        "on_trash":[
+            "farmex_crm_sales.py.sales_person.remove_warehouse_perm",
         ]
+        
     },
     "Payment Entry": {
         "before_validate": [
@@ -201,9 +205,8 @@ doc_events = {
         ],
     },
     "Employee": {
-        "validate": [
-            'farmex_crm_sales.py.emp.create_branch_user_permission'
-        ]
+        "before_save": 'farmex_crm_sales.py.emp.create_branch_user_permission',
+        "on_trash":'farmex_crm_sales.py.emp.remove_branch_perm'       
     }
     
 }
@@ -215,7 +218,7 @@ scheduler_events = {
     # 	"all": [
     # 		"farmex_crm_sales.tasks.all"
     # 	],
-    "daily": ["farmex_crm_sales.py.customer.disable_customers", "farmex_crm_sales.py.sales_person.set_incentives"],
+    "daily": ["farmex_crm_sales.py.customer.disable_customers"],
     # 	"hourly": [
     # 		"farmex_crm_sales.tasks.hourly"
     # 	],

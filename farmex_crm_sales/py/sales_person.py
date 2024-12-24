@@ -9,24 +9,50 @@ def create_user_permission_for_sales_person(doc, event):
         employee = frappe.get_doc("Employee", doc.employee)
 
         user_id = employee.user_id
+        if user_id and doc.name:
+            existing_permission = frappe.db.exists(
+                "User Permission",
+                {
+                    "user": user_id,
+                    "allow": "Sales Person",
+                    "for_value": doc.name,
+                },
+            )
+          
 
-        existing_permission = frappe.db.exists(
-            "User Permission",
-            {
-                "user": user_id,
-                "allow": "Sales Person",
-                "for_value": doc.name,
-            },
-        )
+            if not existing_permission:
+                user_permission = frappe.new_doc("User Permission")
+                user_permission.user = user_id
+                user_permission.allow = "Sales Person"
+                user_permission.for_value = doc.name
+                user_permission.insert()
+                frappe.db.commit()
 
-        if not existing_permission:
-            user_permission = frappe.new_doc("User Permission")
-            user_permission.user = user_id
-            user_permission.allow = "Sales Person"
-            user_permission.for_value = doc.name
 
-            user_permission.save()
-            frappe.db.commit()
+
+@frappe.whitelist()
+def remove_warehouse_perm(doc, event):
+    if doc.employee and doc.custom_warehouse:
+
+        employee = frappe.get_doc("Employee", doc.employee)
+
+        user_id = employee.user_id
+        if user_id and doc.name:
+            existing_permission = frappe.db.exists(
+                "User Permission",
+                {
+                    "user": user_id,
+                    "allow": "Warehouse",
+                    "for_value": doc.custom_warehouse,
+                },
+            )
+          
+     
+        #delete existiong permission on trash
+        if existing_permission:
+            frappe.delete_doc("User Permission", existing_permission, ignore_permissions=True)
+            frappe.db.commit() 
+
 
 
 @frappe.whitelist()
@@ -35,25 +61,25 @@ def set_user_permission_van_sales(doc, event):
         employee = frappe.get_doc("Employee", doc.employee)
 
         user = employee.user_id
+        if user and doc.custom_warehouse:
+            check_permission = frappe.db.exists(
+                "User Permission",
+                {"user": user, "allow": "Warehouse"},
+            )
 
-        check_permission = frappe.db.exists(
-            "User Permission",
-            {"user": user, "allow": "Warehouse"},
-        )
-
-        if not check_permission:
-            new_user_permission = frappe.new_doc("User Permission")
-            new_user_permission.user = user
-            new_user_permission.allow = "Warehouse"
-            new_user_permission.for_value = doc.custom_warehouse
-            new_user_permission.save()
-            frappe.db.commit()
-        else:
-            existing_user_permission = frappe.get_doc("User Permission", {"user": user, "allow": "Warehouse"})
-            print(existing_user_permission)
-            existing_user_permission.for_value = doc.custom_warehouse
-            existing_user_permission.save()
-            frappe.db.commit()
+            if not check_permission:
+                new_user_permission = frappe.new_doc("User Permission")
+                new_user_permission.user = user
+                new_user_permission.allow = "Warehouse"
+                new_user_permission.for_value = doc.custom_warehouse
+                new_user_permission.save()
+                frappe.db.commit()
+            else:
+                existing_user_permission = frappe.get_doc("User Permission", {"user": user, "allow": "Warehouse"})
+                print(existing_user_permission)
+                existing_user_permission.for_value = doc.custom_warehouse
+                existing_user_permission.save()
+                frappe.db.commit()
 
 
 @frappe.whitelist()
