@@ -1,14 +1,15 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:customer_group",
+ "autoname": "format:CGWIP-{customer_group}",
  "creation": "2024-12-06 11:39:12.666557",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "branch",
   "customer_group",
+  "branch",
   "column_break_fmli",
+  "posting_date",
   "company",
   "section_break_vhwu",
   "item_price"
@@ -17,8 +18,10 @@
   {
    "fieldname": "customer_group",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Customer Group",
    "options": "Customer Group",
+   "reqd": 1,
    "unique": 1
   },
   {
@@ -36,27 +39,36 @@
    "fieldname": "branch",
    "fieldtype": "Link",
    "label": "Branch",
-   "options": "Branch",
-   "unique": 1
+   "options": "Branch"
   },
   {
    "fieldname": "company",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Company",
-   "options": "Company"
+   "options": "Company",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_fmli",
    "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Posting Date",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-10 10:21:36.698375",
+ "modified": "2024-12-26 09:44:45.825454",
  "modified_by": "Administrator",
  "module": "Farmex CRM Sales",
  "name": "Customer Group Wise Item Price",
- "naming_rule": "By fieldname",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
