@@ -1,0 +1,29 @@
+{
+ "attach_print": 0,
+ "channel": "System Notification",
+ "condition": "doc.stock_entry_type == \"Material Transfer\"",
+ "creation": "2025-01-01 14:58:33.466244",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Stock Entry",
+ "enabled": 1,
+ "event": "Save",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "<p>Material Transfer</p>\n",
+ "message_type": "Markdown",
+ "modified": "2025-01-01 14:59:30.369071",
+ "modified_by": "Administrator",
+ "module": "Farmex CRM Sales",
+ "name": "Material Transfer",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_role": "Operations"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "Material Transfer Request: {{ doc.name }}"
+}

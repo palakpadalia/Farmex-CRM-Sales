@@ -1,0 +1,39 @@
+{
+ "add_total_row": 0,
+ "columns": [],
+ "creation": "2025-01-01 15:13:07.092443",
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "json": "{\"columns\":[{\"label\":\"Date\",\"fieldname\":\"date\",\"fieldtype\":\"Datetime\",\"width\":150,\"id\":\"date\",\"name\":\"Date\",\"editable\":false,\"compareValue\":null},{\"label\":\"Item\",\"fieldname\":\"item_code\",\"fieldtype\":\"Link\",\"options\":\"Item\",\"width\":100,\"id\":\"item_code\",\"name\":\"Item\",\"editable\":false,\"compareValue\":null},{\"label\":\"Item Name\",\"fieldname\":\"item_name\",\"width\":100,\"id\":\"item_name\",\"name\":\"Item Name\",\"editable\":false,\"compareValue\":null},{\"label\":\"Stock UOM\",\"fieldname\":\"stock_uom\",\"fieldtype\":\"Link\",\"options\":\"UOM\",\"width\":90,\"id\":\"stock_uom\",\"name\":\"Stock UOM\",\"editable\":false,\"compareValue\":null},{\"label\":\"Balance Qty\",\"fieldname\":\"qty_after_transaction\",\"fieldtype\":\"Float\",\"width\":100,\"convertible\":\"qty\",\"id\":\"qty_after_transaction\",\"name\":\"Balance Qty\",\"editable\":false,\"compareValue\":null},{\"label\":\"Warehouse\",\"fieldname\":\"warehouse\",\"fieldtype\":\"Link\",\"options\":\"Warehouse\",\"width\":150,\"id\":\"warehouse\",\"name\":\"Warehouse\",\"editable\":false,\"compareValue\":null},{\"label\":\"Item Group\",\"fieldname\":\"item_group\",\"fieldtype\":\"Link\",\"options\":\"Item Group\",\"width\":100,\"id\":\"item_group\",\"name\":\"Item Group\",\"editable\":false,\"compareValue\":null},{\"label\":\"Brand\",\"fieldname\":\"brand\",\"fieldtype\":\"Link\",\"options\":\"Brand\",\"width\":100,\"id\":\"brand\",\"name\":\"Brand\",\"editable\":false,\"compareValue\":null},{\"label\":\"Description\",\"fieldname\":\"description\",\"width\":200,\"id\":\"description\",\"name\":\"Description\",\"editable\":false,\"compareValue\":null},{\"label\":\"Voucher Type\",\"fieldname\":\"voucher_type\",\"width\":110,\"id\":\"voucher_type\",\"name\":\"Voucher Type\",\"editable\":false,\"compareValue\":null},{\"label\":\"Batch\",\"fieldname\":\"batch_no\",\"fieldtype\":\"Link\",\"options\":\"Batch\",\"width\":100,\"id\":\"batch_no\",\"name\":\"Batch\",\"editable\":false,\"compareValue\":null},{\"label\":\"Serial No\",\"fieldname\":\"serial_no\",\"fieldtype\":\"Link\",\"options\":\"Serial No\",\"width\":100,\"id\":\"serial_no\",\"name\":\"Serial No\",\"editable\":false,\"compareValue\":null},{\"label\":\"Serial and Batch Bundle\",\"fieldname\":\"serial_and_batch_bundle\",\"fieldtype\":\"Link\",\"options\":\"Serial and Batch Bundle\",\"width\":100,\"id\":\"serial_and_batch_bundle\",\"name\":\"Serial and Batch Bundle\",\"editable\":false,\"compareValue\":null},{\"label\":\"Project\",\"fieldname\":\"project\",\"fieldtype\":\"Link\",\"options\":\"Project\",\"width\":100,\"id\":\"project\",\"name\":\"Project\",\"editable\":false,\"compareValue\":null},{\"label\":\"Company\",\"fieldname\":\"company\",\"fieldtype\":\"Link\",\"options\":\"Company\",\"width\":110,\"id\":\"company\",\"name\":\"Company\",\"editable\":false,\"compareValue\":null}],\"filters\":{\"company\":\"Farmex Freshia Trading L.L.C.\",\"from_date\":\"2024-12-01\",\"to_date\":\"2025-01-01\",\"valuation_field_type\":\"Currency\"}}",
+ "letter_head": "Sales Invoice",
+ "letterhead": null,
+ "modified": "2025-01-01 15:13:53.893548",
+ "modified_by": "Administrator",
+ "module": "Farmex CRM Sales",
+ "name": "Sales Person Stock Balance",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "ref_doctype": "Stock Ledger Entry",
+ "reference_report": "Stock Ledger",
+ "report_name": "Sales Person Stock Balance",
+ "report_type": "Custom Report",
+ "roles": [
+  {
+   "role": "Accounts Manager"
+  },
+  {
+   "role": "Stock User"
+  },
+  {
+   "role": "Van Sales"
+  },
+  {
+   "role": "Pre Sales"
+  }
+ ],
+ "timeout": 0
+}

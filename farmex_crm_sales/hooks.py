@@ -215,6 +215,9 @@ doc_events = {
 # ---------------
 
 scheduler_events = {
+
+    
+
     # 	"all": [
     # 		"farmex_crm_sales.tasks.all"
     # 	],
