@@ -63,7 +63,7 @@ function show_grouped_item_dialog(frm) {
                 get_data: () => dialog.fields_dict.items.df.data
             }
         ],
-        primary_action_label: 'Add to Sales Order',
+        primary_action_label: 'Add Items',
         primary_action: function () {
             let selected_items = cur_dialog.fields_dict.items.df.data.filter(item => cur_dialog.fields_dict.items.grid.get_selected().includes(item.name));
             remove_blank_rows(frm); // Remove blank rows from sales order item table
