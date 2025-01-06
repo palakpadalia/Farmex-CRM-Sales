@@ -31,7 +31,7 @@ def execute(filters=None):
         },
         {
             "label": _("Invoiced Amount"),
-            "fieldname": "rounded_total",
+            "fieldname": "grand_total",
             "fieldtype": "Currency",
             "width": 125,
         },
@@ -67,6 +67,7 @@ def execute(filters=None):
         },
     ]
 
+    # Filters for Sales Invoice
     tax_invoice_filters = {
         "status": [
             "in",
@@ -87,6 +88,7 @@ def execute(filters=None):
     if filters and filters.get("customer"):
         tax_invoice_filters["customer"] = filters["customer"]
 
+    # Fetch Sales Invoices
     tax_invoice = frappe.get_list(
         "Sales Invoice",
         fields=[
@@ -96,19 +98,23 @@ def execute(filters=None):
             "grand_total",
             "outstanding_amount",
             "status",
-            'rounded_total'
         ],
         filters=tax_invoice_filters,
     )
 
-    credit_notes = frappe.get_list(
-        "Sales Invoice",
-        fields=["return_against", "grand_total"],
-        filters={
-            "is_return": 1,
-            "return_against": ["in", [inv["name"] for inv in tax_invoice]],
-        },
-    )
+    # frappe.log("Fetched Sales Invoices: ", tax_invoice)
+
+    # Fetch Credit Notes for these Invoices
+    credit_notes = []
+    if tax_invoice:
+        credit_notes = frappe.get_list(
+            "Sales Invoice",
+            fields=["return_against", "grand_total"],
+            filters={
+                "is_return": 1,
+                "return_against": ["in", [inv["name"] for inv in tax_invoice]],
+            },
+        )
 
     credit_note = {}
     for cn in credit_notes:
@@ -116,6 +122,7 @@ def execute(filters=None):
             credit_note[cn["return_against"]] = 0
         credit_note[cn["return_against"]] += cn["grand_total"]
 
+    # Fetch Payment Entries
     payment_entry = frappe.get_all(
         "Payment Entry",
         fields=["name", "mode_of_payment"],
@@ -124,16 +131,21 @@ def execute(filters=None):
 
     valid_payment_entry = [pe["name"] for pe in payment_entry]
 
-    payment_references = frappe.get_all(
-        "Payment Entry Reference",
-        fields=["parent", "allocated_amount", "reference_name"],
-        filters={
-            "reference_doctype": "Sales Invoice",
-            "reference_name": ["in", [inv["name"] for inv in tax_invoice]],
-            "parent": ["in", valid_payment_entry],
-        },
-    )
+    payment_references = []
+    if valid_payment_entry:
+        payment_references = frappe.get_all(
+            "Payment Entry Reference",
+            fields=["parent", "allocated_amount", "reference_name"],
+            filters={
+                "reference_doctype": "Sales Invoice",
+                "reference_name": ["in", [inv["name"] for inv in tax_invoice]],
+                "parent": ["in", valid_payment_entry],
+            },
+        )
 
+    # frappe.log("Payment References: ", payment_references)
+
+    # Fetch PDC Payment Entries
     pdc_payment_entry = frappe.get_all(
         "Payment Entry",
         fields=["name", "mode_of_payment"],
@@ -142,15 +154,20 @@ def execute(filters=None):
 
     valid_pdc_payment_entry = [pe["name"] for pe in pdc_payment_entry]
 
-    pdc_payment_references = frappe.get_all(
-        "PDC Payment Reference",
-        fields=["parent", "grand_total", "tax_invoice"],
-        filters={
-            "tax_invoice": ["in", [inv["name"] for inv in tax_invoice]],
-            "parent": ["in", valid_pdc_payment_entry],
-        },
-    )
+    pdc_payment_references = []
+    if valid_pdc_payment_entry:
+        pdc_payment_references = frappe.get_all(
+            "PDC Payment Reference",
+            fields=["parent", "grand_total", "tax_invoice"],
+            filters={
+                "tax_invoice": ["in", [inv["name"] for inv in tax_invoice]],
+                "parent": ["in", valid_pdc_payment_entry],
+            },
+        )
 
+    # frappe.log("PDC References: ", pdc_payment_references)
+
+    # Calculate Paid Amounts
     paid_amount = {}
     for pr in payment_references:
         if pr["reference_name"] not in paid_amount:
@@ -163,17 +180,15 @@ def execute(filters=None):
             pdc_paid_amount[pdc_pr["tax_invoice"]] = 0
         pdc_paid_amount[pdc_pr["tax_invoice"]] += pdc_pr["grand_total"]
 
+    # Filter and Process Invoices
     filtered_invoices = []
-
     for invoice in tax_invoice:
         invoice["credit_note"] = credit_note.get(invoice["name"], 0)
-
         invoice["total_paid_amount"] = paid_amount.get(invoice["name"], 0)
-
         invoice["total_pdc_amount"] = pdc_paid_amount.get(invoice["name"], 0)
 
         invoice["outstanding_amount"] = (
-            invoice["rounded_total"]
+            invoice["grand_total"]
             - invoice["total_paid_amount"]
             - invoice["total_pdc_amount"]
             + invoice["credit_note"]
