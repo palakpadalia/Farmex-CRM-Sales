@@ -102,6 +102,8 @@ def execute(filters=None):
         filters=tax_invoice_filters,
     )
 
+    print("\m\,\,\,\,\,,\n\n\n\n\n\n\n\n\n", tax_invoice)
+
     # frappe.log("Fetched Sales Invoices: ", tax_invoice)
 
     # Fetch Credit Notes for these Invoices
@@ -126,10 +128,15 @@ def execute(filters=None):
     payment_entry = frappe.get_all(
         "Payment Entry",
         fields=["name", "mode_of_payment"],
-        filters={"mode_of_payment": ["!=", "Received PDC"]},
+        filters={
+            "mode_of_payment": ["!=", "Received PDC"],
+            "docstatus": 1,
+        },
     )
 
     valid_payment_entry = [pe["name"] for pe in payment_entry]
+
+    print(valid_payment_entry)
 
     payment_references = []
     if valid_payment_entry:
@@ -149,7 +156,10 @@ def execute(filters=None):
     pdc_payment_entry = frappe.get_all(
         "Payment Entry",
         fields=["name", "mode_of_payment"],
-        filters={"mode_of_payment": ["=", "Received PDC"]},
+        filters={
+            "mode_of_payment": ["=", "Received PDC"],
+            # "docstatus": 0,
+        },
     )
 
     valid_pdc_payment_entry = [pe["name"] for pe in pdc_payment_entry]
@@ -193,15 +203,14 @@ def execute(filters=None):
             - invoice["total_pdc_amount"]
             + invoice["credit_note"]
         )
+        print("invoice", invoice.name)
 
         if invoice["total_pdc_amount"] > 0:
             invoice["remarks"] = "PDC Payment"
         else:
             invoice["remarks"] = ""
 
-        if not (
-            invoice["outstanding_amount"] == 0 and invoice["total_pdc_amount"] == 0
-        ):
+        if not (invoice["outstanding_amount"] == 0 and invoice["total_pdc_amount"] == 0):
             filtered_invoices.append(invoice)
 
     return columns, filtered_invoices
