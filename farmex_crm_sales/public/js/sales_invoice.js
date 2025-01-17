@@ -1,31 +1,60 @@
 frappe.ui.form.on('Sales Invoice', {
+    refresh: function (frm) {
+        frm.add_custom_button(__('View Account Receivable'), function () {
+        const company = frm.doc.company;
+        const customer = frm.doc.customer;
+        const url = `/app/query-report/Account%20Receivable%20Report?company=${company}&customer=${customer}`;
+        window.open(url, "_blank");      
+        });
 
-  refresh: function (frm) {
-    frm.add_custom_button(__('View Account Receivable'), function () {
+        if (!frm.is_new()) {
+        frm.set_df_property('custom_sales_person', 'reqd', 1);
+        } else {
+        frm.set_df_property('custom_sales_person', 'reqd', 0);
+        }
 
-      const company = frm.doc.company;
-      const customer = frm.doc.customer;
+        // Add bulk item button for adding in item table
+        if (frm.doc.docstatus < 1) {
+            frm.add_custom_button(__('Add Items'), function () {
+                show_grouped_item_dialog(frm);
+            });
+        }
+    },
+    onload: function(frm) {
+        // Set the get_query function for the 'uom' field on form load
+        frm.fields_dict.items.grid.get_field('uom').get_query = function(doc, cdt, cdn) {
+            // Get the current row
+            let row = locals[cdt][cdn];
 
-      const url = `/app/query-report/Account%20Receivable%20Report?company=${company}&customer=${customer}`;
-      window.open(url, "_blank");
+            // Check if the row has uom_list data
+            if (uom_lists[cdn]) {
+                return { filters: { 'name': ['in', uom_lists[cdn]] } };
+            } else {
+                // If uom_list data is not available, show all UOMs
+                return { filters: { 'name': ['!=', ''] } };
+            }
+        };
+    },
+});
 
-      
-    });
-
-    if (!frm.is_new()) {
-      frm.set_df_property('custom_sales_person', 'reqd', 1);
-    } else {
-      frm.set_df_property('custom_sales_person', 'reqd', 0);
-    }
-
-     // Add bulk item button for adding in item table
-     if (frm.doc.docstatus < 1) {
-      frm.add_custom_button(__('Add Items'), function () {
-          show_grouped_item_dialog(frm);
-      });
-  }
-  }
-
+let uom_lists = {};
+frappe.ui.form.on('Sales Invoice Item', {
+    item_code: function(frm, cdt, cdn) {
+        let row = locals[cdt][cdn];
+        frappe.db.get_doc('Item', row.item_code)
+            .then(docs => {
+                let uom_list = [];
+                docs.uoms.forEach(uom => {
+                    uom_list.push(uom.uom);
+                    if (uom.custom_selling) {
+                        frappe.model.set_value(cdt, cdn, 'uom', uom.uom)
+                    }
+                });
+                uom_lists[cdn] = uom_list;
+                // Trigger a refresh of the 'uom' field to apply the updated get_query function
+                frm.fields_dict.items.grid.get_field('uom').refresh();
+            });
+    },
 });
 
 

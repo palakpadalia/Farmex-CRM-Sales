@@ -52,12 +52,19 @@ doctype_js = {
     "Item": "public/js/item.js",
     "Purchase Invoice": "public/js/purchase_invoice.js",
     "Purchase Order": "public/js/purchase_order.js",
+    "Purchase Receipt": "public/js/purchase_receipt.js",
     "Stock Entry": "public/js/stock_entry.js",
     "Quotation": "public/js/quotation.js",
     "Material Request": "public/js/material_request.js",
     "Stock Reconciliation": "public/js/stock_reconciliation.js",
+    "Pick List": "public/js/pick_list.js",
+    "Packing Slip": "public/js/packing_slip.js",
 }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
+
+doctype_list_js = {"Sales Order" : "public/js/sales_order_list.js"}
+
+
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
@@ -163,6 +170,7 @@ doc_events = {
         "before_validate": [
             "farmex_crm_sales.py.sales_team.set_sales_person",
         ],
+        
     },
     "Sales Invoice": {
         # DONT REMOVE BELOW LINE
