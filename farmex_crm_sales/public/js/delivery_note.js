@@ -39,9 +39,6 @@ frappe.ui.form.on('Delivery Note Item', {
                 let uom_list = [];
                 docs.uoms.forEach(uom => {
                     uom_list.push(uom.uom);
-                    if (uom.custom_selling) {
-                        frappe.model.set_value(cdt, cdn, 'uom', uom.uom)
-                    }
                 });
                 uom_lists[cdn] = uom_list;
                 // Trigger a refresh of the 'uom' field to apply the updated get_query function
