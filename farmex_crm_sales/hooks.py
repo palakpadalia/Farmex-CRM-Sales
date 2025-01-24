@@ -149,7 +149,10 @@ doctype_list_js = {"Sales Order" : "public/js/sales_order_list.js"}
 # ---------------
 # Override standard doctype classes
 
-override_doctype_class = {"Item": "farmex_crm_sales.py.item.Item"}
+override_doctype_class = {
+    "Item": "farmex_crm_sales.py.item.Item",
+    "Pick List": "farmex_crm_sales.py.picklist.PickList",
+    }
 
 # Document Events
 # ---------------
@@ -215,8 +218,10 @@ doc_events = {
     "Employee": {
         "before_save": 'farmex_crm_sales.py.emp.create_branch_user_permission',
         "on_trash":'farmex_crm_sales.py.emp.remove_branch_perm'       
-    }
-    
+    },
+    # "Pick List": {
+    #     "before_save": "farmex_crm_sales.py.picklist.before_save"
+    # }    
 }
 
 # Scheduled Tasks
