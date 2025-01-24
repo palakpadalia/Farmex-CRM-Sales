@@ -1,0 +1,31 @@
+{
+ "attach_print": 0,
+ "channel": "System Notification",
+ "condition": "doc.workflow_state==\"Approved\"",
+ "creation": "2025-01-21 16:23:21.548375",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Customer",
+ "enabled": 1,
+ "event": "Save",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "<p>The customer {{doc.customer_name}} is approved.</p>\n",
+ "message_type": "Markdown",
+ "modified": "2025-01-21 16:29:13.058390",
+ "modified_by": "Administrator",
+ "module": "Farmex CRM Sales",
+ "name": "Customer Approval",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_document_field": "owner",
+   "receiver_by_role": ""
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "\ud83c\udf89 The customer has been approved!  Customer Name: {{ doc.customer_name }}",
+ "value_changed": "disabled"
+}

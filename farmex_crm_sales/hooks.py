@@ -62,7 +62,7 @@ doctype_js = {
 }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 
-doctype_list_js = {"Sales Order" : "public/js/sales_order_list.js"}
+doctype_list_js = {"Sales Order": "public/js/sales_order_list.js"}
 
 
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -152,7 +152,7 @@ doctype_list_js = {"Sales Order" : "public/js/sales_order_list.js"}
 override_doctype_class = {
     "Item": "farmex_crm_sales.py.item.Item",
     "Pick List": "farmex_crm_sales.py.picklist.PickList",
-    }
+}
 
 # Document Events
 # ---------------
@@ -173,7 +173,6 @@ doc_events = {
         "before_validate": [
             "farmex_crm_sales.py.sales_team.set_sales_person",
         ],
-        
     },
     "Sales Invoice": {
         # DONT REMOVE BELOW LINE
@@ -190,7 +189,7 @@ doc_events = {
         "validate": "farmex_crm_sales.py.customer.enable_customer",
         "after_insert": "farmex_crm_sales.py.customer.update_pricelist_insert",
         "before_save": "farmex_crm_sales.py.customer.before_save",
-        "on_trash": "farmex_crm_sales.py.customer.on_trash",        
+        "on_trash": "farmex_crm_sales.py.customer.on_trash",
     },
     "Delivery Note": {
         "validate": [
@@ -203,12 +202,11 @@ doc_events = {
     "Sales Person": {
         "on_update": [
             "farmex_crm_sales.py.sales_person.create_user_permission_for_sales_person",
-            'farmex_crm_sales.py.sales_person.set_user_permission_van_sales'
+            "farmex_crm_sales.py.sales_person.set_user_permission_van_sales",
         ],
-        "on_trash":[
+        "on_trash": [
             "farmex_crm_sales.py.sales_person.remove_warehouse_perm",
-        ]
-        
+        ],
     },
     "Payment Entry": {
         "before_validate": [
@@ -216,21 +214,18 @@ doc_events = {
         ],
     },
     "Employee": {
-        "before_save": 'farmex_crm_sales.py.emp.create_branch_user_permission',
-        "on_trash":'farmex_crm_sales.py.emp.remove_branch_perm'       
+        "before_save": "farmex_crm_sales.py.emp.create_branch_user_permission",
+        "on_trash": "farmex_crm_sales.py.emp.remove_branch_perm",
     },
     # "Pick List": {
     #     "before_save": "farmex_crm_sales.py.picklist.before_save"
-    # }    
+    # }
 }
 
 # Scheduled Tasks
 # ---------------
 
 scheduler_events = {
-
-    
-
     # 	"all": [
     # 		"farmex_crm_sales.tasks.all"
     # 	],
@@ -355,6 +350,18 @@ fixtures = [
                 [
                     "Van Sales",
                     "Pre Sales",
+                ],
+            ]
+        ],
+    },
+    {
+        "dt": "Workflow",
+        "filters": [
+            [
+                "name",
+                "in",
+                [
+                    "Customer-Approval-Flow",
                 ],
             ]
         ],
