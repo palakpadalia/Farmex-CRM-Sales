@@ -35,6 +35,7 @@ frappe.ui.form.on('Stock Entry Detail', {
                     uom_list.push(uom.uom);
                 });
                 uom_lists[cdn] = uom_list;
+                frappe.model.set_value(cdt, cdn, 'uom', docs.custom_default_stock_unit_of_measure);
                 // Trigger a refresh of the 'uom' field to apply the updated get_query function
                 frm.fields_dict.items.grid.get_field('uom').refresh();
             });
