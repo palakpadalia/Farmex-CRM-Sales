@@ -26,6 +26,12 @@ def execute(filters=None):
             "width": 150,
         },
         {
+            "label": "Status",
+            "fieldname": "status",
+            "fieldtype": "Data",
+            "width": 150,
+        },
+        {
             "label": "Paid Amount",
             "fieldname": "paid_amount",
             "fieldtype": "Currency",
@@ -58,7 +64,7 @@ def execute(filters=None):
     ]
 
     filters = filters or {}
-    pe_filters = {"docstatus": 0}
+    pe_filters = {}
 
     if filters.get("company"):
         pe_filters["company"] = filters.get("company")
@@ -80,6 +86,7 @@ def execute(filters=None):
             "custom_created_by",
             "party",
             "paid_amount",
+            "status"
         ],
         filters=pe_filters,
     )
