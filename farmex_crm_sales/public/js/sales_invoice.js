@@ -19,6 +19,7 @@ frappe.ui.form.on('Sales Invoice', {
                 show_grouped_item_dialog(frm);
             });
         }
+        calculate_page_breaks(frm);
     },
     onload: function(frm) {
         // Set the get_query function for the 'uom' field on form load
@@ -51,11 +52,51 @@ frappe.ui.form.on('Sales Invoice Item', {
                 // Trigger a refresh of the 'uom' field to apply the updated get_query function
                 frm.fields_dict.items.grid.get_field('uom').refresh();
             });
+        calculate_page_breaks(frm);
     },
 });
 
 
+function calculate_page_breaks(frm) {
+    let total_count = 0; // Initialize total count
+    const items = frm.doc.items || []; // Get the child table rows
 
+    // Create a hidden div for text measurement
+    const measureDiv = document.createElement('div');
+    measureDiv.style.position = 'absolute';
+    measureDiv.style.visibility = 'hidden';
+    measureDiv.style.whiteSpace = 'nowrap'; // Ensure text doesn't wrap
+    measureDiv.style.fontSize = '12px'; // Set the font size (match your print format font size)
+    document.body.appendChild(measureDiv);
+
+    items.forEach((row) => {
+        // Set the text to the measurement div
+        measureDiv.textContent = row.description || '';
+        const textWidth = measureDiv.offsetWidth; // Get the rendered width in pixels
+        console.log(`Width of description (${row.idx}): ${textWidth}px`);
+
+        // Calculate the count based on 255px width chunks
+        const row_count = Math.ceil(textWidth / 302);
+        total_count += row_count;
+        console.log(row_count, total_count)
+
+        // If total count reaches or exceeds 21, set page_break = 1
+        if (total_count >= 21) {
+            frappe.model.set_value(row.doctype, row.name, 'page_break', 1);
+            total_count = 0; // Reset the count for the next page
+            console.log('Page break on', row.idx);
+        } else {
+            // Otherwise, ensure page_break is 0
+            frappe.model.set_value(row.doctype, row.name, 'page_break', 0);
+        }
+    });
+
+    // Remove the hidden div after calculations
+    document.body.removeChild(measureDiv);
+
+    // Refresh the table to reflect changes
+    frm.refresh_field('items');
+}
 
 // add bulk item add in child table
 function show_grouped_item_dialog(frm) {
