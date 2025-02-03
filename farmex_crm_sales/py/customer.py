@@ -1,6 +1,6 @@
     
 import frappe
-from frappe.utils import today, date_diff
+from frappe.utils import today, date_diff, getdate
 
 def update_pricelist_insert(doc,method):
     if doc.customer_group:
@@ -123,20 +123,20 @@ def disable_customers():
 
 
 def enable_customer(doc, event):
+    today_date = getdate(today())
     if (
         (
             doc.custom_expiry_date_of_company_trade_license
-            and doc.custom_expiry_date_of_company_trade_license >= today()
+            and doc.custom_expiry_date_of_company_trade_license >= today_date
         )
         or (
             doc.custom_expiry_date_of_owners__authorised_person_passport
-            and doc.custom_expiry_date_of_owners__authorised_person_passport >= today()
+            and doc.custom_expiry_date_of_owners__authorised_person_passport >= today_date
         )
         or (
             doc.custom_expiry_date_of_owners__authorised_person_emirates_id
             and doc.custom_expiry_date_of_owners__authorised_person_emirates_id
-            >= today()
+            >= today_date
         )
     ):
-
         doc.disabled = 0
