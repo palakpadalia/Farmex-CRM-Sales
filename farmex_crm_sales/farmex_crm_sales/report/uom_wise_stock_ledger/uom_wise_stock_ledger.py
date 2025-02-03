@@ -12,7 +12,7 @@ def execute(filters=None):
     # Determine warehouses based on company and warehouse filters
     warehouses = []
     if company:
-        warehouses = frappe.get_all(
+        warehouses = frappe.get_list(
             "Warehouse", filters={"company": company}, pluck="name"
         )
         if warehouse_filter and warehouse_filter in warehouses:
@@ -83,7 +83,7 @@ def execute(filters=None):
         bin_filters = {"item_code": item.name}
         if warehouses:
             bin_filters["warehouse"] = ["in", warehouses]
-        bins = frappe.get_all(
+        bins = frappe.get_list(
             "Bin", filters=bin_filters, fields=["warehouse", "actual_qty"]
         )
 
