@@ -10,6 +10,7 @@ frappe.ui.form.on('Sales Order Cancelled Item', {
     }
 });
 
+let uom_lists = {};
 frappe.ui.form.on('Sales Order', {
     onload: function(frm) {
         if (frm.is_new()) {  // Check if the document is new
@@ -30,12 +31,19 @@ frappe.ui.form.on('Sales Order', {
         // {
         //     alert("Yes Operation User=====")
         // }
-        
+
+        if (frm.doc.docstatus == 0) {
+            // Loop through existing items and regenerate UOM filters
+            frm.doc.items.forEach(row => {
+                if (row.item_code) {
+                    fetch_uom_list(frm, row);
+                }
+            });
+        }
         // Set the get_query function for the 'uom' field on form load
         frm.fields_dict.items.grid.get_field('uom').get_query = function(doc, cdt, cdn) {
             // Get the current row
             let row = locals[cdt][cdn];
-
             // Check if the row has uom_list data
             if (uom_lists[cdn]) {
                 return { filters: { 'name': ['in', uom_lists[cdn]] } };
@@ -128,8 +136,42 @@ frappe.ui.form.on('Sales Order', {
         } else {
             frm.set_df_property('custom_sales_person', 'reqd', 0);
         }
-
-       
+        if (frm.doc.docstatus === 1 && flt(frm.doc.per_delivered) < 100) {
+            frm.add_custom_button(__("Delivery Note"), function () {
+                // Fetch existing Delivery Notes linked to this Sales Order
+                frappe.call({
+                    method: "frappe.desk.form.linked_with.get",
+                    args: {
+                        doctype: "Sales Order",
+                        docname: frm.doc.name
+                    },
+                    callback: function(r) {
+                        console.log("Linked Documents:", r.message);
+                        console.log(r.message["Delivery Note"])
+                
+                        if (r.message && r.message["Delivery Note"]) {
+                            let delivery_notes = r.message["Delivery Note"].map(dn => dn.name).join(", ");
+                
+                            frappe.confirm(
+                                __(`The following Delivery Notes are already linked to this Sales Order: <br><b>${delivery_notes}</b><br><br> Do you still want to proceed?`),
+                                function () {
+                                    frm.events.make_delivery_note(frm);
+                                }
+                            );
+                        } else {
+                            console.log("No linked Delivery Notes found.");
+                            frm.events.make_delivery_note(frm);
+                        }
+                    }
+                });
+            }, __("Create"));
+        }
+    },
+    make_delivery_note: function (frm) {
+        frappe.model.open_mapped_doc({
+            method: "erpnext.selling.doctype.sales_order.sales_order.make_delivery_note",
+            frm: frm
+        });
     },
 });
 
@@ -265,19 +307,23 @@ function remove_blank_rows(frm) {
 }
 
 
-let uom_lists = {};
 frappe.ui.form.on('Sales Order Item', {
     item_code: function(frm, cdt, cdn) {
         let row = locals[cdt][cdn];
-        frappe.db.get_doc('Item', row.item_code)
-            .then(docs => {
-                let uom_list = [];
-                docs.uoms.forEach(uom => {
-                    uom_list.push(uom.uom);
-                });
-                uom_lists[cdn] = uom_list;
-                // Trigger a refresh of the 'uom' field to apply the updated get_query function
-                frm.fields_dict.items.grid.get_field('uom').refresh();
-            });
+        fetch_uom_list(frm, row);
     },
 });
+
+
+// Function to fetch UOM list
+function fetch_uom_list(frm, row) {
+    frappe.db.get_doc('Item', row.item_code).then(docs => {
+        let uom_list = [];
+        docs.uoms.forEach(uom => {
+            uom_list.push(uom.uom);
+        });
+        uom_lists[row.name] = uom_list;
+        // Refresh the UOM field
+        frm.fields_dict.items.grid.get_field('uom').refresh();
+    });
+}
