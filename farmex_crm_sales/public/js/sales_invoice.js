@@ -19,7 +19,7 @@ frappe.ui.form.on('Sales Invoice', {
                 show_grouped_item_dialog(frm);
             });
         }
-        calculate_page_breaks(frm);
+        // calculate_page_breaks(frm);
     },
     onload: function(frm) {
         if (frm.doc.docstatus == 0) {
@@ -220,7 +220,7 @@ function fetch_and_populate_items(dialog, item_group) {
               dialog.fields_dict.items.grid.refresh();
           } else {
               frappe.msgprint(__('No items found for the selected group.'));
-              dialog.fields_dict.items.df.data = [];
+              dialog.fields_dict.items.df.data = [];farmex_crm_sales/public/js/stock_entry.js
               dialog.fields_dict.items.grid.refresh();
           }
       }
