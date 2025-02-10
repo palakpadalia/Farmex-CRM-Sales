@@ -1,3 +1,4 @@
+let uom_lists = {};
 frappe.ui.form.on('Material Request', {
 	refresh(frm) {
 		 // Add bulk item button for adding in item table
@@ -8,14 +9,14 @@ frappe.ui.form.on('Material Request', {
         }
 	},
     onload: function(frm) {        
-        // if (frm.doc.docstatus == 0) {
-        //     // Loop through existing items and regenerate UOM filters
-        //     frm.doc.items.forEach(row => {
-        //         if (row.item_code) {
-        //             fetch_uom_list(frm, row);
-        //         }
-        //     });
-        // }
+        if (frm.doc.docstatus == 0) {
+            // Loop through existing items and regenerate UOM filters
+            frm.doc.items.forEach(row => {
+                if (row.item_code) {
+                    fetch_uom_list(frm, row);
+                }
+            });
+        }
         // Set the get_query function for the 'uom' field on form load
         frm.fields_dict.items.grid.get_field('uom').get_query = function(doc, cdt, cdn) {
             // Get the current row
@@ -32,7 +33,6 @@ frappe.ui.form.on('Material Request', {
     },
 });
 
-let uom_lists = {};
 frappe.ui.form.on('Material Request Item', {
     item_code: function(frm, cdt, cdn) {
         let row = locals[cdt][cdn];

@@ -1,3 +1,4 @@
+let uom_lists = {};
 frappe.ui.form.on('Quotation', {
 	refresh(frm) {
 		 // Add bulk item button for adding in item table
@@ -8,14 +9,14 @@ frappe.ui.form.on('Quotation', {
         }
 	},
     onload: function(frm) {
-        // if (frm.doc.docstatus == 0) {
-        //     // Loop through existing items and regenerate UOM filters
-        //     frm.doc.items.forEach(row => {
-        //         if (row.item_code) {
-        //             fetch_uom_list(frm, row);
-        //         }
-        //     });
-        // }
+        if (frm.doc.docstatus == 0) {
+            // Loop through existing items and regenerate UOM filters
+            frm.doc.items.forEach(row => {
+                if (row.item_code) {
+                    fetch_uom_list(frm, row);
+                }
+            });
+        }
         // Set the get_query function for the 'uom' field on form load
         frm.fields_dict.items.grid.get_field('uom').get_query = function(doc, cdt, cdn) {
             // Get the current row
@@ -32,14 +33,13 @@ frappe.ui.form.on('Quotation', {
     },
 });
 
-let uom_lists = {};
 frappe.ui.form.on('Quotation Item', {
     item_code: function(frm, cdt, cdn) {
         let row = locals[cdt][cdn];
         // fetch_uom_list(frm, row);
-        // frappe.db.get_doc('Item', row.item_code).then(docs => {
-        //     frappe.model.set_value(row.doctype, row.name, 'uom', docs.stock_uom );
-        // });
+        frappe.db.get_doc('Item', row.item_code).then(docs => {
+            frappe.model.set_value(row.doctype, row.name, 'uom', docs.stock_uom );
+        });
         frappe.db.get_doc('Item', row.item_code)
         .then(docs => {
             let uom_list = [];

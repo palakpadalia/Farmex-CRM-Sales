@@ -1,13 +1,14 @@
+let uom_lists = {};
 frappe.ui.form.on('Purchase Receipt', {
     onload: function(frm) {
-        // if (frm.doc.docstatus == 0) {
-        //     // Loop through existing items and regenerate UOM filters
-        //     frm.doc.items.forEach(row => {
-        //         if (row.item_code) {
-        //             fetch_uom_list(frm, row);
-        //         }
-        //     });
-        // }
+        if (frm.doc.docstatus == 0) {
+            // Loop through existing items and regenerate UOM filters
+            frm.doc.items.forEach(row => {
+                if (row.item_code) {
+                    fetch_uom_list(frm, row);
+                }
+            });
+        }
         // Set the get_query function for the 'uom' field on form load
         frm.fields_dict.items.grid.get_field('uom').get_query = function(doc, cdt, cdn) {
             // Get the current row
@@ -24,14 +25,13 @@ frappe.ui.form.on('Purchase Receipt', {
     },
 });
 
-let uom_lists = {};
 frappe.ui.form.on('Purchase Receipt Item', {
     item_code: function(frm, cdt, cdn) {
         let row = locals[cdt][cdn];
         // fetch_uom_list(frm, row);
-        // frappe.db.get_doc('Item', row.item_code).then(docs => {
-        //     frappe.model.set_value(row.doctype, row.name, 'uom', docs.purchase_uom || docs.stock_uom);
-        // });
+        frappe.db.get_doc('Item', row.item_code).then(docs => {
+            frappe.model.set_value(row.doctype, row.name, 'uom', docs.purchase_uom || docs.stock_uom);
+        });
         frappe.db.get_doc('Item', row.item_code)
         .then(docs => {
             let uom_list = [];

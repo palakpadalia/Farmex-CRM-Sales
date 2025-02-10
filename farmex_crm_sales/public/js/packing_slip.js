@@ -1,13 +1,14 @@
+let uom_lists = {};
 frappe.ui.form.on('Packing Slip', {
     onload: function(frm) {
-        // if (frm.doc.docstatus == 0) {
-        //     // Loop through existing items and regenerate UOM filters
-        //     frm.doc.items.forEach(row => {
-        //         if (row.item_code) {
-        //             fetch_uom_list(frm, row);
-        //         }
-        //     });
-        // }
+        if (frm.doc.docstatus == 0) {
+            // Loop through existing items and regenerate UOM filters
+            frm.doc.items.forEach(row => {
+                if (row.item_code) {
+                    fetch_uom_list(frm, row);
+                }
+            });
+        }
         // Set the get_query function for the 'uom' field on form load
         frm.fields_dict.items.grid.get_field('uom').get_query = function(doc, cdt, cdn) {
             // Get the current row
@@ -24,15 +25,14 @@ frappe.ui.form.on('Packing Slip', {
     },
 });
 
-let uom_lists = {};
 frappe.ui.form.on('Packing Slip Item', {
     item_code: function(frm, cdt, cdn) {
         let row = locals[cdt][cdn];
-        // frappe.db.get_value('Item', row.item_code, 'custom_default_stock_unit_of_measure')
-        // .then(response => {
-        //     let stock_unit_of_measure = response.message.custom_default_stock_unit_of_measure;
-        //     if (stock_unit_of_measure) frappe.model.set_value(cdt, cdn, 'uom', stock_unit_of_measure);
-        // });    
+        frappe.db.get_value('Item', row.item_code, 'custom_default_stock_unit_of_measure')
+        .then(response => {
+            let stock_unit_of_measure = response.message.custom_default_stock_unit_of_measure;
+            if (stock_unit_of_measure) frappe.model.set_value(cdt, cdn, 'uom', stock_unit_of_measure);
+        });    
         // fetch_uom_list(frm, row);
         frappe.db.get_doc('Item', row.item_code)
         .then(docs => {
