@@ -802,58 +802,95 @@ def get_items_with_location_and_quantity(item_doc, item_location_map, docstatus)
 
 
 def get_available_item_locations(
-	item_code,
-	from_warehouses,
-	required_qty,
-	company,
-	ignore_validation=False,
-	picked_item_details=None,
-	consider_rejected_warehouses=False,
+    item_code,
+    from_warehouses,
+    required_qty,
+    company,
+    ignore_validation=False,
+    picked_item_details=None,
+    consider_rejected_warehouses=False,
+    parent_warehouse=None
 ):
-	locations = []
+    # Fetch warehouses where custom_is_virtual == 0
+    valid_warehouses = frappe.get_list(
+        "Warehouse",
+        filters={"custom_is_virtual": 0, "company": company},
+        pluck="name"
+    )
+    print("Valid Warehouses:", valid_warehouses)
 
-	has_serial_no = frappe.get_cached_value("Item", item_code, "has_serial_no")
-	has_batch_no = frappe.get_cached_value("Item", item_code, "has_batch_no")
+    # Ensure from_warehouses is populated
+    if not from_warehouses:
+        # If parent_warehouse is provided, fetch its child warehouses
+        if parent_warehouse:
+            from_warehouses = frappe.get_all(
+                "Warehouse",
+                filters={"parent_warehouse": parent_warehouse, "company": company},
+                pluck="name"
+            )
+            print("Fetched Child Warehouses:", from_warehouses)
 
-	if has_batch_no and has_serial_no:
-		locations = get_available_item_locations_for_serial_and_batched_item(
-			item_code,
-			from_warehouses,
-			required_qty,
-			company,
-			consider_rejected_warehouses=consider_rejected_warehouses,
-		)
-	elif has_serial_no:
-		locations = get_available_item_locations_for_serialized_item(
-			item_code,
-			from_warehouses,
-			company,
-			consider_rejected_warehouses=consider_rejected_warehouses,
-		)
-	elif has_batch_no:
-		locations = get_available_item_locations_for_batched_item(
-			item_code,
-			from_warehouses,
-			consider_rejected_warehouses=consider_rejected_warehouses,
-		)
-	else:
-		locations = get_available_item_locations_for_other_item(
-			item_code,
-			from_warehouses,
-			company,
-			consider_rejected_warehouses=consider_rejected_warehouses,
-		)
+        # If still empty, get all company warehouses
+        if not from_warehouses:
+            from_warehouses = frappe.get_all(
+                "Warehouse",
+                filters={"company": company},
+                pluck="name"
+            )
+            print("Fetched All Company Warehouses:", from_warehouses)
 
-	if picked_item_details:
-		locations = filter_locations_by_picked_materials(locations, picked_item_details)
+    # Filter from_warehouses to include only valid ones
+    from_warehouses = list(set(from_warehouses) & set(valid_warehouses))
+    print("Filtered Warehouses:", from_warehouses)
 
-	if locations:
-		locations = get_locations_based_on_required_qty(locations, required_qty)
+    if not from_warehouses:
+        frappe.msgprint("⚠️ No valid warehouses found for picking!")
+        return []
 
-	if not ignore_validation:
-		validate_picked_materials(item_code, required_qty, locations, picked_item_details)
+    locations = []
+    has_serial_no = frappe.get_cached_value("Item", item_code, "has_serial_no")
+    has_batch_no = frappe.get_cached_value("Item", item_code, "has_batch_no")
 
-	return locations
+    if has_batch_no and has_serial_no:
+        locations = get_available_item_locations_for_serial_and_batched_item(
+            item_code,
+            from_warehouses,
+            required_qty,
+            company,
+            consider_rejected_warehouses=consider_rejected_warehouses,
+        )
+    elif has_serial_no:
+        locations = get_available_item_locations_for_serialized_item(
+            item_code,
+            from_warehouses,
+            company,
+            consider_rejected_warehouses=consider_rejected_warehouses,
+        )
+    elif has_batch_no:
+        locations = get_available_item_locations_for_batched_item(
+            item_code,
+            from_warehouses,
+            consider_rejected_warehouses=consider_rejected_warehouses,
+        )
+    else:
+        locations = get_available_item_locations_for_other_item(
+            item_code,
+            from_warehouses,
+            company,
+            consider_rejected_warehouses=consider_rejected_warehouses,
+        )
+
+    if picked_item_details:
+        locations = filter_locations_by_picked_materials(locations, picked_item_details)
+
+    if locations:
+        locations = get_locations_based_on_required_qty(locations, required_qty)
+
+    if not ignore_validation:
+        validate_picked_materials(item_code, required_qty, locations, picked_item_details)
+
+    return locations
+
 
 
 def get_locations_based_on_required_qty(locations, required_qty):
