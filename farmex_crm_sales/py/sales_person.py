@@ -59,14 +59,12 @@ def remove_warehouse_perm(doc, event):
 def set_user_permission_van_sales(doc, event):
     if doc.custom_is_van_sales == 1 and doc.custom_warehouse and doc.employee:
         employee = frappe.get_doc("Employee", doc.employee)
-
         user = employee.user_id
         if user and doc.custom_warehouse:
             check_permission = frappe.db.exists(
                 "User Permission",
                 {"user": user, "allow": "Warehouse"},
             )
-
             if not check_permission:
                 new_user_permission = frappe.new_doc("User Permission")
                 new_user_permission.user = user
@@ -78,6 +76,28 @@ def set_user_permission_van_sales(doc, event):
                 existing_user_permission = frappe.get_doc("User Permission", {"user": user, "allow": "Warehouse"})
                 print(existing_user_permission)
                 existing_user_permission.for_value = doc.custom_warehouse
+                existing_user_permission.save()
+                frappe.db.commit()
+
+    if doc.employee:
+        employee = frappe.get_doc("Employee", doc.employee)
+        user = employee.user_id
+        if user and doc.custom_cost_center:
+            check_permission = frappe.db.exists(
+                "User Permission",
+                {"user": user, "allow": "Cost Center"},
+            )
+            if not check_permission:
+                new_user_permission = frappe.new_doc("User Permission")
+                new_user_permission.user = user
+                new_user_permission.allow = "Cost Center"
+                new_user_permission.for_value = doc.custom_cost_center
+                new_user_permission.save()
+                frappe.db.commit()
+            else:
+                existing_user_permission = frappe.get_doc("User Permission", {"user": user, "allow": "Cost Center"})
+                print(existing_user_permission)
+                existing_user_permission.for_value = doc.custom_cost_center
                 existing_user_permission.save()
                 frappe.db.commit()
 
