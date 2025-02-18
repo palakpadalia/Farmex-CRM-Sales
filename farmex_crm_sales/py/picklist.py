@@ -814,7 +814,7 @@ def get_available_item_locations(
     # Fetch warehouses where custom_is_virtual == 0
     valid_warehouses = frappe.get_list(
         "Warehouse",
-        filters={"custom_is_virtual": 0, "company": company},
+        filters={"parent_warehouse": "WH - FFTL", "company": company},
         pluck="name"
     )
     print("Valid Warehouses:", valid_warehouses)
