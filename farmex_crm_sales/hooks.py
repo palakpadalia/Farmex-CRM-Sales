@@ -318,16 +318,7 @@ override_whitelisted_methods = {
 # }
 
 fixtures = [
-    {
-        "dt": "Role",
-        "filters": [
-            [
-                "name",
-                "in",
-                ["Van Sales", "Pre Sales", "Operations"],
-            ]
-        ],
-    },
+   
     {
         "dt": "Role Profile",
         "filters": [
