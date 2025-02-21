@@ -63,3 +63,26 @@ def get_uom_conv_factor(uom, stock_uom, item_code=None):
 
     if intermediate_match:
         return intermediate_match[0].value
+
+
+@frappe.whitelist()
+def get_available_stock_items(user):
+    # Get warehouses accessible to the logged-in user
+    accessible_warehouses = frappe.get_all(
+        "User Permission", 
+        filters={"user": user, "allow": "Warehouse"}, 
+        pluck="for_value"
+    )
+
+    if not accessible_warehouses:
+        accessible_warehouses = frappe.get_all("Warehouse", pluck="name")  # No accessible warehouses, return empty list
+
+    # Get item codes where stock > 0 in these warehouses
+    available_items = frappe.db.sql("""
+        SELECT DISTINCT item_code
+        FROM `tabBin`
+        WHERE warehouse IN (%s) AND actual_qty > 0
+    """ % ", ".join(["%s"] * len(accessible_warehouses)), tuple(accessible_warehouses), as_dict=True)
+
+    return [d.item_code for d in available_items]  # Return list of item codes
+
