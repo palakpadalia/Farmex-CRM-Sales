@@ -23,6 +23,22 @@ frappe.ui.form.on('Pick List', {
             }
         };
     },
+
+    validate: async function(frm) {
+        let total_net_weight = 0;
+        for (let row of frm.doc.locations) {
+            let response = await frappe.db.get_value('Item', row.item_code, 'weight_per_unit');
+            let weight_per_unit = response.message.weight_per_unit || 0;
+            let weight_per_row = weight_per_unit * row.stock_qty;
+            total_net_weight += weight_per_row;
+        }
+        await frappe.model.set_value(frm.doctype, frm.docname, 'custom_total_net_weight', total_net_weight);
+        // Prevent saving if total weight is still 0
+        if (total_net_weight === 0) {
+            frappe.msgprint(__('Total Net Weight cannot be 0.'));
+            frappe.validated = false;
+        }
+    }
 });
 
 frappe.ui.form.on('Pick List Item', {
