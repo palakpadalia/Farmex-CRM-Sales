@@ -25,19 +25,20 @@ frappe.ui.form.on('Pick List', {
     },
 
     validate: async function(frm) {
-        let total_net_weight = 0;
-        for (let row of frm.doc.locations) {
-            let response = await frappe.db.get_value('Item', row.item_code, 'weight_per_unit');
-            let weight_per_unit = response.message.weight_per_unit || 0;
-            let weight_per_row = weight_per_unit * row.stock_qty;
-            total_net_weight += weight_per_row;
-        }
-        await frappe.model.set_value(frm.doctype, frm.docname, 'custom_total_net_weight', total_net_weight);
-        // Prevent saving if total weight is still 0
-        if (total_net_weight === 0) {
-            frappe.msgprint(__('Total Net Weight cannot be 0.'));
-            frappe.validated = false;
-        }
+        await update_total_net_weight(frm);
+        // let total_net_weight = 0;
+        // for (let row of frm.doc.locations) {
+        //     let response = await frappe.db.get_value('Item', row.item_code, 'weight_per_unit');
+        //     let weight_per_unit = response.message.weight_per_unit || 0;
+        //     let weight_per_row = weight_per_unit * row.stock_qty;
+        //     total_net_weight += weight_per_row;
+        // }
+        // await frappe.model.set_value(frm.doctype, frm.docname, 'custom_total_net_weight', total_net_weight);
+        // // Prevent saving if total weight is still 0
+        // if (total_net_weight === 0) {
+        //     frappe.msgprint(__('Total Net Weight cannot be 0.'));
+        //     frappe.validated = false;
+        // }
     }
 });
 
@@ -61,6 +62,13 @@ frappe.ui.form.on('Pick List Item', {
             // Trigger a refresh of the 'uom' field to apply the updated get_query function
             frm.fields_dict.locations.grid.get_field('uom').refresh();
         });
+        update_total_net_weight(frm);
+    },
+    stock_qty: function(frm, cdt, cdn) {
+        update_total_net_weight(frm);
+    },
+    locations_remove: function(frm) { // Triggered when a row is deleted
+        update_total_net_weight(frm);
     },
 });
 
@@ -76,4 +84,27 @@ function fetch_uom_list(frm, row) {
         // Refresh the UOM field
         frm.fields_dict.locations.grid.get_field('uom').refresh();
     });
+}
+
+
+// Function to update total net weight
+async function update_total_net_weight(frm) {
+    let total_net_weight = 0;
+
+    for (let row of frm.doc.locations || []) {
+        if (!row.item_code) continue; // Skip if no item_code
+
+        let response = await frappe.db.get_value('Item', row.item_code, 'weight_per_unit');
+        let weight_per_unit = response.message.weight_per_unit || 0;
+        let weight_per_row = weight_per_unit * row.stock_qty;
+        total_net_weight += weight_per_row;
+    }
+
+    await frappe.model.set_value(frm.doctype, frm.docname, 'custom_total_net_weight', total_net_weight);
+
+    // Prevent saving if total weight is 0
+    if (total_net_weight === 0 && frm.doc.docstatus === 0) {
+        frappe.msgprint(__('Total Net Weight cannot be 0.'));
+        frappe.validated = false;
+    }
 }
