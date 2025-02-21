@@ -29,18 +29,24 @@ def execute(filters=None):
             "label": "Status",
             "fieldname": "status",
             "fieldtype": "Data",
+            "width": 100,
+        },
+        {
+            "label": "Mode of Payment",
+            "fieldname": "mode_of_payment",
+            "fieldtype": "Data",
+            "width": 150,
+        },
+         {
+            "label": "Reference Date",
+            "fieldname": "reference_date",
+            "fieldtype": "Date",
             "width": 150,
         },
         {
             "label": "Paid Amount",
             "fieldname": "paid_amount",
             "fieldtype": "Currency",
-            "width": 150,
-        },
-        {
-            "label": "Mode of Payment",
-            "fieldname": "mode_of_payment",
-            "fieldtype": "Data",
             "width": 150,
         },
         {
@@ -86,7 +92,8 @@ def execute(filters=None):
             "custom_created_by",
             "party",
             "paid_amount",
-            "status"
+            "status",
+            "reference_date",
         ],
         filters=pe_filters,
     )
