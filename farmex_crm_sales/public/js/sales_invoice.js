@@ -23,7 +23,9 @@ frappe.ui.form.on('Sales Invoice', {
             frm.doc.items.forEach(row => row.item_code && fetch_uom_list(frm, row));
 
             // Fetch available stock items and set filters
-            fetch_available_stock_items(frm);
+            if (frm.doc.is_return === 0) {
+                fetch_available_stock_items(frm);
+            }
         }
 
         // Set the get_query function for 'uom' field dynamically
@@ -33,9 +35,17 @@ frappe.ui.form.on('Sales Invoice', {
     },
 
     customer(frm) {
-        fetch_available_stock_items(frm);
+        if (frm.doc.is_return === 0) {
+            fetch_available_stock_items(frm);
+        }
         frm.refresh_field('items');
     },
+
+    is_return(frm) {
+        if (frm.doc.is_return === 0) {
+            fetch_available_stock_items(frm);
+        }
+    }
 });
 
 frappe.ui.form.on('Sales Invoice Item', {
@@ -68,18 +78,23 @@ function fetch_available_stock_items(frm) {
         method: "farmex_crm_sales.py.item.get_available_stock_items",
         args: { user: frappe.session.user },
         callback(response) {
-            if (response.message) {
-                let item_codes = response.message;
-                frm.fields_dict.items.grid.get_field('item_code').get_query = function (doc, cdt, cdn) {
-                    return {
-                        filters: { 'name': ['in', item_codes], 'is_sales_item': 1, 'has_variants': 0 }
-                    };
-                };
-                frm.fields_dict.items.grid.get_field('item_code').refresh();
-            }
+            let item_codes = response.message || [];
+
+            frm.fields_dict.items.grid.get_field('item_code').get_query = function (doc, cdt, cdn) {
+                if (frm.doc.is_return) {
+                    // When it's a return, allow all items
+                    return { filters: { 'is_sales_item': 1, 'has_variants': 0 } };
+                } else {
+                    // Otherwise, restrict to available stock
+                    return { filters: { 'name': ['in', item_codes], 'is_sales_item': 1, 'has_variants': 0 } };
+                }
+            };
+
+            frm.fields_dict.items.grid.get_field('item_code').refresh();
         }
     });
 }
+
 
 // Bulk Item Addition Dialog
 function show_grouped_item_dialog(frm) {
