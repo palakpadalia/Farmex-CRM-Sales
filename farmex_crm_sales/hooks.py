@@ -249,9 +249,9 @@ scheduler_events = {
 # Overriding Methods
 # ------------------------------
 #
-override_whitelisted_methods = {
-    "erpnext.stock.doctype.item.item.get_uom_conv_factor": "farmex_crm_sales.py.item.get_uom_conv_factor"
-}
+# override_whitelisted_methods = {
+#     "erpnext.stock.doctype.item.item.get_uom_conv_factor": "farmex_crm_sales.py.item.get_uom_conv_factor"
+# }
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
