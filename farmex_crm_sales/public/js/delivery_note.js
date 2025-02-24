@@ -19,7 +19,7 @@ frappe.ui.form.on('Delivery Note', {
                 }
             });
             
-            fetch_available_stock_items(frm);
+            // fetch_available_stock_items(frm);
         }
 
         frm.fields_dict.items.grid.get_field('uom').get_query = function (doc, cdt, cdn) {
@@ -29,7 +29,7 @@ frappe.ui.form.on('Delivery Note', {
     },
 
     customer(frm) {
-        fetch_available_stock_items(frm);
+        // fetch_available_stock_items(frm);
         frm.refresh_field('items');
     },
 });
