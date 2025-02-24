@@ -4,29 +4,32 @@
 frappe.provide("erpnext.utils");
 
 frappe.query_reports["Account Receivable Report"] = {
-	filters: [
-		{
-			fieldname: "company",
-			label: __("Company"),
-			fieldtype: "Link",
-			options: "Company",
-			reqd: 1,
-			default: frappe.defaults.get_user_default("Company"),
-		},
-		{
-			fieldname: "customer",
-			label: __("Party"),
-			fieldtype: "Link",
-			options: "Customer",
-		},
-		{
-			fieldname: "report_date",
-			label: __("Posting Date"),
-			fieldtype: "Date",
-			default: frappe.datetime.get_today(),
-			read_only: 1,
-		},
-	],
-
-
-}; u
+    filters: [
+        {
+            fieldname: "company",
+            label: __("Company"),
+            fieldtype: "Link",
+            options: "Company",
+            reqd: 1,
+            default: frappe.defaults.get_user_default("Company"),
+        },
+        {
+            fieldname: "customer",
+            label: __("Party"),
+            fieldtype: "Link",
+            options: "Customer",
+        },
+        {
+            fieldname: "from_date",
+            label: __("From Posting Date"),
+            fieldtype: "Date",
+            default: frappe.datetime.add_days(frappe.datetime.get_today(), -30), // Default to last 30 days
+        },
+        {
+            fieldname: "to_date",
+            label: __("To Posting Date"),
+            fieldtype: "Date",
+            default: frappe.datetime.get_today(),
+        },
+    ],
+};

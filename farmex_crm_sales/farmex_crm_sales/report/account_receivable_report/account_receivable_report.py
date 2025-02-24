@@ -1,7 +1,6 @@
 import frappe
 from frappe import _
 
-
 def execute(filters=None):
     columns = [
         {
@@ -82,11 +81,17 @@ def execute(filters=None):
         "docstatus": 1,
     }
 
-    if filters and filters.get("company"):
-        tax_invoice_filters["company"] = filters["company"]
-
-    if filters and filters.get("customer"):
-        tax_invoice_filters["customer"] = filters["customer"]
+    if filters:
+        if filters.get("company"):
+            tax_invoice_filters["company"] = filters["company"]
+        if filters.get("customer"):
+            tax_invoice_filters["customer"] = filters["customer"]
+        if filters.get("from_date") and filters.get("to_date"):
+            tax_invoice_filters["posting_date"] = ["between", [filters["from_date"], filters["to_date"]]]
+        elif filters.get("from_date"):
+            tax_invoice_filters["posting_date"] = [">=", filters["from_date"]]
+        elif filters.get("to_date"):
+            tax_invoice_filters["posting_date"] = ["<=", filters["to_date"]]
 
     # Fetch Sales Invoices
     tax_invoice = frappe.get_list(
@@ -102,10 +107,6 @@ def execute(filters=None):
         filters=tax_invoice_filters,
     )
 
-    print("\m\,\,\,\,\,,\n\n\n\n\n\n\n\n\n", tax_invoice)
-
-    # frappe.log("Fetched Sales Invoices: ", tax_invoice)
-
     # Fetch Credit Notes for these Invoices
     credit_notes = []
     if tax_invoice:
@@ -120,9 +121,7 @@ def execute(filters=None):
 
     credit_note = {}
     for cn in credit_notes:
-        if cn["return_against"] not in credit_note:
-            credit_note[cn["return_against"]] = 0
-        credit_note[cn["return_against"]] += cn["grand_total"]
+        credit_note[cn["return_against"]] = credit_note.get(cn["return_against"], 0) + cn["grand_total"]
 
     # Fetch Payment Entries
     payment_entry = frappe.get_all(
@@ -136,8 +135,6 @@ def execute(filters=None):
 
     valid_payment_entry = [pe["name"] for pe in payment_entry]
 
-    print(valid_payment_entry)
-
     payment_references = []
     if valid_payment_entry:
         payment_references = frappe.get_all(
@@ -150,15 +147,12 @@ def execute(filters=None):
             },
         )
 
-    # frappe.log("Payment References: ", payment_references)
-
     # Fetch PDC Payment Entries
     pdc_payment_entry = frappe.get_all(
         "Payment Entry",
         fields=["name", "mode_of_payment"],
         filters={
-            "mode_of_payment": ["=", "Received PDC"],
-            # "docstatus": 0,
+            "mode_of_payment": "Received PDC",
         },
     )
 
@@ -175,20 +169,14 @@ def execute(filters=None):
             },
         )
 
-    # frappe.log("PDC References: ", pdc_payment_references)
-
     # Calculate Paid Amounts
     paid_amount = {}
     for pr in payment_references:
-        if pr["reference_name"] not in paid_amount:
-            paid_amount[pr["reference_name"]] = 0
-        paid_amount[pr["reference_name"]] += pr["allocated_amount"]
+        paid_amount[pr["reference_name"]] = paid_amount.get(pr["reference_name"], 0) + pr["allocated_amount"]
 
     pdc_paid_amount = {}
     for pdc_pr in pdc_payment_references:
-        if pdc_pr["tax_invoice"] not in pdc_paid_amount:
-            pdc_paid_amount[pdc_pr["tax_invoice"]] = 0
-        pdc_paid_amount[pdc_pr["tax_invoice"]] += pdc_pr["grand_total"]
+        pdc_paid_amount[pdc_pr["tax_invoice"]] = pdc_paid_amount.get(pdc_pr["tax_invoice"], 0) + pdc_pr["grand_total"]
 
     # Filter and Process Invoices
     filtered_invoices = []
@@ -203,12 +191,8 @@ def execute(filters=None):
             - invoice["total_pdc_amount"]
             + invoice["credit_note"]
         )
-        print("invoice", invoice.name)
 
-        if invoice["total_pdc_amount"] > 0:
-            invoice["remarks"] = "PDC Payment"
-        else:
-            invoice["remarks"] = ""
+        invoice["remarks"] = "PDC Payment" if invoice["total_pdc_amount"] > 0 else ""
 
         if not (invoice["outstanding_amount"] == 0 and invoice["total_pdc_amount"] == 0):
             filtered_invoices.append(invoice)
