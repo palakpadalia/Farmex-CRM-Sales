@@ -16,25 +16,6 @@ frappe.ui.form.on('Material Request', {
                     fetch_uom_list(frm, row);
                 }
             });
-            frappe.call({
-                method: "farmex_crm_sales.py.item.get_available_stock_items",
-                args: { user: frappe.session.user },
-                callback: function(response) {
-                    if (response.message) {
-                        let item_code_lists = response.message; // Store fetched item codes
-                        console.log(item_code_lists)
-                        frm.fields_dict.items.grid.get_field('item_code').get_query = function(doc, cdt, cdn) {
-                            return {
-                                filters: {
-                                    'name': ['in', item_code_lists],
-                                    'is_purchase_item': 1,
-                                }
-                            };
-                        };
-                    }
-                }
-            });
-            frm.fields_dict.items.grid.get_field('item_code').refresh();
         }
         // Set the get_query function for the 'uom' field on form load
         frm.fields_dict.items.grid.get_field('uom').get_query = function(doc, cdt, cdn) {
