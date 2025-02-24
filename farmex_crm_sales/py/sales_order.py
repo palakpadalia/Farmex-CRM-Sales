@@ -205,3 +205,6 @@ def send_notification(doc):
     frappe.db.commit()
 
 
+@frappe.whitelist()
+def get_value(doctype, filters, fieldname):
+    return frappe.db.get_value(doctype=doctype, filters=filters, fieldname=fieldname)
