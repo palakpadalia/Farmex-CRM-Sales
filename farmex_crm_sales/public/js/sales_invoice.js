@@ -14,6 +14,7 @@ frappe.ui.form.on('Sales Invoice', {
             frm.add_custom_button(__('Add Items'), function () {
                 show_grouped_item_dialog(frm);
             });
+            if (frm.doc.customer && frm.doc.items[0].item_code)get_previous_rate(frm);
         }
     },
 
@@ -21,6 +22,7 @@ frappe.ui.form.on('Sales Invoice', {
         if (frm.doc.docstatus === 0) {
             // Fetch UOM lists for existing items
             frm.doc.items.forEach(row => row.item_code && fetch_uom_list(frm, row));
+            if (frm.doc.customer && frm.doc.items[0].item_code)get_previous_rate(frm);
         }
 
         // Set the get_query function for 'uom' field dynamically
@@ -33,7 +35,7 @@ frappe.ui.form.on('Sales Invoice', {
 frappe.ui.form.on('Sales Invoice Item', {
     item_code(frm, cdt, cdn) {
         let row = locals[cdt][cdn];
-
+        get_previous_rate(frm);
         // Fetch item details and set UOM
         frappe.db.get_doc('Item', row.item_code).then(docs => {
             frappe.model.set_value(cdt, cdn, 'uom', docs.sales_uom || docs.stock_uom);
@@ -132,4 +134,24 @@ function fetch_and_populate_items(dialog, item_group) {
 function remove_blank_rows(frm) {
     frm.doc.items = frm.doc.items.filter(row => row.item_code);
     frm.refresh_field('items');
+}
+
+function get_previous_rate(frm) {
+    frm.doc.items.forEach(row => {
+        frappe.call({
+            method: "farmex_crm_sales.py.sales_invoice.get_last_sale_rate",
+            args: {
+                customer: frm.doc.customer,
+                item_code: row.item_code
+            },
+            callback: function(response) {
+                if (response.message) {
+                    frappe.model.set_value(row.doctype, row.name, "custom_last_sales_rate", response.message);
+                } else {
+                    frappe.model.set_value(row.doctype, row.name, "custom_last_sales_rate", 0);
+                }
+            }
+        });
+    });
+    frm.refresh_field("items");
 }

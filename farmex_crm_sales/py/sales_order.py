@@ -208,3 +208,38 @@ def send_notification(doc):
 @frappe.whitelist()
 def get_value(doctype, filters, fieldname):
     return frappe.db.get_value(doctype=doctype, filters=filters, fieldname=fieldname)
+
+
+@frappe.whitelist()
+def get_last_sale_rate(item_code, customer):
+    # Step 1: Find the latest Sales Order where this item was sold
+    last_order = frappe.get_all(
+        "Sales Order Item",
+        filters={"item_code": item_code},
+        fields=["parent"],
+        order_by="creation DESC",
+        limit=1,
+    )
+
+    if last_order:
+        order_name = last_order[0]["parent"]
+
+        # Step 2: Check if the order belongs to the given customer
+        order_exists = frappe.db.exists(
+            "Sales Order", {"name": order_name, "customer": customer, "docstatus": 1}
+        )
+
+        if order_exists:
+            # Step 3: Fetch the last sale rate for the item from that order
+            sale_item = frappe.get_all(
+                "Sales Order Item",
+                filters={"parent": order_name, "item_code": item_code},
+                fields=["rate"],
+            )
+
+            if sale_item:
+                return sale_item[0]["rate"]
+
+    return 0  # Return 0 if no previous rate is found
+
+    # return order

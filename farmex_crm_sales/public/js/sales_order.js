@@ -14,14 +14,19 @@ frappe.ui.form.on('Sales Order', {
         if (frm.is_new()) {
             frm.set_value('delivery_date', get_next_business_day(2));
         }
-
-
-
-        fetch_user_role(frm, (role) => {
-            if (role === "Pre Sales") {
-                fetch_available_stock_items(frm, true);
-            }
+        if (frm.doc.docstatus === 0) {
+            if (frm.doc.customer && frm.doc.items[0].item_code)get_previous_rate(frm);
+        }
+        $(document).ready(function() {
+            setTimeout(() => {
+                fetch_user_role(frm, (role) => {
+                    if (role === "Pre Sales") {
+                        fetch_available_stock_items(frm, true);
+                    }
+                });
+            }, 1000); // 1000ms (1 second) delay
         });
+        
     },
 
     customer: function (frm) {
@@ -41,13 +46,20 @@ frappe.ui.form.on('Sales Order', {
         if (frm.doc.docstatus === 0) {
             let promises = frm.doc.items.map(row => row.item_code ? fetch_uom_list(frm, row) : Promise.resolve());
             Promise.all(promises).then(() => set_uom_filter(frm));
+            if (frm.doc.customer && frm.doc.items[0].item_code)get_previous_rate(frm);
         }
 
-        fetch_user_role(frm, (role) => {
-            if (role === "Pre Sales") {
-                fetch_available_stock_items(frm, true);
-            }
+        $(document).ready(function() {
+            setTimeout(() => {
+                fetch_user_role(frm, (role) => {
+                    if (role === "Pre Sales") {
+                        fetch_available_stock_items(frm, true);
+                    }
+                });
+            }, 1000); // 1000ms (1 second) delay
         });
+        
+
     },
 
     make_delivery_note: function (frm) {
@@ -56,7 +68,7 @@ frappe.ui.form.on('Sales Order', {
             frm: frm
         });
     },
-    
+
     custom_cost_center_for_items: function (frm) {
         const custom_cost_center_for_items = frm.doc.custom_cost_center_for_items;
         frm.doc.items.map((item, index) => {
@@ -194,9 +206,42 @@ function fetch_uom_list(frm, row) {
 frappe.ui.form.on('Sales Order Item', {
     item_code: function (frm, cdt, cdn) {
         let row = locals[cdt][cdn];
+        get_previous_rate(frm);
         if (!row.item_code) return;
 
         // Fetch UOM list when a new item is added or changed
         fetch_uom_list(frm, row).then(() => set_uom_filter(frm));
-    }
+    },
+
+    items_add: function (frm) {
+        $(document).ready(function() {
+            setTimeout(() => {
+                fetch_user_role(frm, (role) => {
+                    if (role === "Pre Sales") {
+                        fetch_available_stock_items(frm, true);
+                    }
+                });
+            }, 1000); // 1000ms (1 second) delay
+        });
+    },
 });
+
+function get_previous_rate(frm) {
+    frm.doc.items.forEach(row => {
+        frappe.call({
+            method: "farmex_crm_sales.py.sales_order.get_last_sale_rate",
+            args: {
+                customer: frm.doc.customer,
+                item_code: row.item_code
+            },
+            callback: function(response) {
+                if (response.message) {
+                    frappe.model.set_value(row.doctype, row.name, "custom_last_sales_rate", response.message);
+                } else {
+                    frappe.model.set_value(row.doctype, row.name, "custom_last_sales_rate", 0);
+                }
+            }
+        });
+    });
+    frm.refresh_field("items");
+}

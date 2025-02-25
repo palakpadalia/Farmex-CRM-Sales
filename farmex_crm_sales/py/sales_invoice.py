@@ -28,3 +28,36 @@ def send_notification(doc, event):
                     notification.email_content = message
 
                     notification.insert(ignore_permissions=True)
+
+
+@frappe.whitelist()
+def get_last_sale_rate(item_code, customer):
+    # Step 1: Find the latest Sales Invoice where this item was sold
+    last_invoice = frappe.get_all(
+        "Sales Invoice Item",
+        filters={"item_code": item_code},
+        fields=["parent"],
+        order_by="creation DESC",
+        limit=1,
+    )
+
+    if last_invoice:
+        invoice_name = last_invoice[0]["parent"]
+        
+        # Step 2: Check if the invoice belongs to the given customer
+        invoice_exists = frappe.db.exists("Sales Invoice", {"name": invoice_name, "customer": customer, "docstatus": 1})
+        
+        if invoice_exists:
+            # Step 3: Fetch the last sale rate for the item from that invoice
+            sale_item = frappe.get_all(
+                "Sales Invoice Item",
+                filters={"parent": invoice_name, "item_code": item_code},
+                fields=["rate"]
+            )
+
+            if sale_item:
+                return sale_item[0]["rate"]
+
+    return 0  # Return 0 if no previous rate is found
+
+    # return invoice
