@@ -82,24 +82,43 @@ def set_user_permission_van_sales(doc, event):
     if doc.employee:
         employee = frappe.get_doc("Employee", doc.employee)
         user = employee.user_id
-        if user and doc.custom_cost_center:
-            check_permission = frappe.db.exists(
+        
+        if user and doc.custom_cost_center and doc.custom_cost_center != "Main - FFTL":
+            # Fetch existing user permissions for Cost Center
+            existing_permissions = frappe.get_all(
                 "User Permission",
-                {"user": user, "allow": "Cost Center"},
+                filters={"user": user, "allow": "Cost Center"},
+                fields=["name", "for_value"]
             )
-            if not check_permission:
-                new_user_permission = frappe.new_doc("User Permission")
-                new_user_permission.user = user
-                new_user_permission.allow = "Cost Center"
-                new_user_permission.for_value = doc.custom_cost_center
-                new_user_permission.save()
-                frappe.db.commit()
+
+            # Check if "Main - FFTL" is already assigned
+            has_main_fftl = any(perm["for_value"] == "Main - FFTL" for perm in existing_permissions)
+
+            # Check if any other Cost Center exists (excluding "Main - FFTL")
+            other_permission = next((perm for perm in existing_permissions if perm["for_value"] != "Main - FFTL"), None)
+
+            # If "Main - FFTL" is not assigned, create it
+            if not has_main_fftl:
+                new_permission = frappe.new_doc("User Permission")
+                new_permission.user = user
+                new_permission.allow = "Cost Center"
+                new_permission.for_value = "Main - FFTL"
+                new_permission.save()
+            
+            # If another cost center exists, update it to doc.custom_cost_center
+            if other_permission:
+                frappe.db.set_value("User Permission", other_permission["name"], "for_value", doc.custom_cost_center)
             else:
-                existing_user_permission = frappe.get_doc("User Permission", {"user": user, "allow": "Cost Center"})
-                print(existing_user_permission)
-                existing_user_permission.for_value = doc.custom_cost_center
-                existing_user_permission.save()
-                frappe.db.commit()
+                # If no other cost center exists, create a new one for doc.custom_cost_center
+                new_permission = frappe.new_doc("User Permission")
+                new_permission.user = user
+                new_permission.allow = "Cost Center"
+                new_permission.for_value = doc.custom_cost_center
+                new_permission.is_default = 1
+                new_permission.save()
+            frappe.db.commit()
+
+
 
 
 @frappe.whitelist()
